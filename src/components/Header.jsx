@@ -2,10 +2,10 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div>
-      <h1>Header</h1>
+    <div className="Header py-6 flex items-center justify-between border-b">
+      <h1 className="text-3xl font-extrabold uppercase">Sonic Score</h1>
 
-      <ul>
+      <ul className="flex gap-6">
         <li>
           <NavLink to="/">Events</NavLink>
         </li>

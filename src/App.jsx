@@ -12,10 +12,10 @@ import EventDetailsPage from "./pages/EventDetailsPage";
 
 function App() {
   return (
-    <>
+    <div className="container max-w-6xl mx-auto">
       <Header />
 
-      <main>
+      <main className="py-5">
         <h1>Sonic Score is here.</h1>
 
         <Routes>
@@ -29,7 +29,7 @@ function App() {
       </main>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

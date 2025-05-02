@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.Header ul li {
+    @apply text-lg font-semibold
+}
+
+.Header ul li a.active {
+    @apply text-orange-600
+}
