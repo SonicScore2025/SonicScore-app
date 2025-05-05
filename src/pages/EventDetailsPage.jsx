@@ -56,9 +56,9 @@ const EventDetailsPage = () => {
       <div className="ratings">
         <p>Festival Rating</p>
         <ul>
-          {Object.keys(event.ratings).map((rating) => {
+          {Object.keys(event.ratings).map((rating, i) => {
             return (
-              <li>
+              <li key={i}>
                 {keysToString(rating)}: {event.ratings[rating]}
               </li>
             );
@@ -66,52 +66,57 @@ const EventDetailsPage = () => {
         </ul>
       </div>
 
-      <div className="resources">
-        <p>{event.resources[0].sourceName}</p>
-        <Link to={event.resources[0].sourceURL} target="_blank">
-          <p>{event.resources[0].sourceURL}</p>
-        </Link>
-      </div>
+      {event.resouces && (
+        <div className="resources">
+          <p>{event.resources[0].sourceName}</p>
+          <Link to={event.resources[0].sourceURL} target="_blank">
+            <p>{event.resources[0].sourceURL}</p>
+          </Link>
+        </div>
+      )}
 
       <Link to={'/'}>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button>
       </Link>
-
-      <div className="reviews" key={event.reviews.reviewId}>
-        {event.reviews.map((review) => {
-          return (
-            <div>
-              <p>{review.date}</p>
-              <p>UserName placeholder</p>
-              <div key={review.userId}>
-                <ul>
-                  {Object.keys(review.ratings).map((rating) => {
-                    return (
-                      <li>
-                        {keysToString(rating)}: {review.ratings[rating]}
-                      </li>
-                    );
-                  })}
-                </ul>
+      {event.reviews && (
+        <div className="reviews" key={event.reviews.reviewId}>
+          {Object.entries(event.reviews).map(([key, value], i) => {
+            return (
+              <div key={i}>
+                <p>{value.date}</p>
+                <p>UserName placeholder</p>
+                <div>
+                  <ul>
+                    {Object.entries(value.ratings).map(([key, value], i) => {
+                      return (
+                        <li key={i}>
+                          {keysToString(key)}: {value}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <p>{value.reviewText}</p>
               </div>
-              <p>{review.reviewText}</p>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+      )}
+      <div>
+        <Link to={`/event/create-review/${id}`}>
+          <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Add Review
+          </button>
+        </Link>
+        <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+          Delete Review
+        </button>
+        <Link to={`/event/edit-review/${id}`}>
+          <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Edit Review
+          </button>
+        </Link>
       </div>
-      <Link to={`/event/create-review/${id}`}>
-        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-          Add Review
-        </button>
-      </Link>
-      <button className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
-        Delete Review
-      </button>
-      <Link to={`/event/edit-review/${id}`}>
-        <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-          Edit Review
-        </button>
-      </Link>
     </div>
   );
 };
