@@ -94,6 +94,7 @@ const EventDetailsPage = () => {
                   })}
                 </ul>
               </div>
+              <p>{review.reviewText}</p>
             </div>
           );
         })}

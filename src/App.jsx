@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/event/:id" element={<EventDetailsPage />} />
-          <Route path="/event/create-review" element={<CreateReview />} />
+          <Route path="/event/create-review/:id" element={<CreateReview />} />
           <Route path="/event/edit-review/:id" element={<EditReview />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/admin" element={<AdminDashboardPage />} />
