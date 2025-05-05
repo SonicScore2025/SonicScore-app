@@ -7,20 +7,7 @@ const UpdateEventPage = () => {
   const { id } = useParams();
   const [eventData, setEventData] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/${id}.json`)
-      .then((response) => {
-        setEventData(response.data);
-        console.log(response.data);
-        
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
-
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -28,22 +15,54 @@ const UpdateEventPage = () => {
     country: "",
     city: "",
     website: "",
-    resourcesInputs: [
+    resources: [
       { sourceTitle: "", sourceURL: "" },
       { sourceTitle: "", sourceURL: "" },
       { sourceTitle: "", sourceURL: "" },
     ],
   });
 
+  useEffect(() => {
+    axios
+      .get(`${API_URL}/events/${id}.json`)
+      .then((response) => {
+        setEventData(response.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (eventData) {
+      setFormData({
+        name: eventData.name || "",
+        description: eventData.description || "",
+        capacity: eventData.capacity || "",
+        country: eventData.location?.country || "",
+        city: eventData.location?.city || "",
+        website: eventData.website || "",
+        resources: eventData.resources || [
+          { sourceTitle: "", sourceURL: "" },
+          { sourceTitle: "", sourceURL: "" },
+          { sourceTitle: "", sourceURL: "" },
+        ],
+      });
+    }
+  }, [eventData]);
+
   const checkDuplicateEvent = (eventName) => {
     return axios
-      .get(API_URL)
+      .get(`${API_URL}/events.json`)
       .then((response) => {
         const eventsArr = Object.keys(response.data).map((id) => ({
           id,
           ...response.data[id],
         }));
-        return eventsArr.some((item) => item.name === eventName);
+        return eventsArr.some(
+          (item) => item.name === eventName && item.id !== id
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -51,11 +70,17 @@ const UpdateEventPage = () => {
       });
   };
 
-  const createEvent = (newEvent) => {
+  const handleResourceChange = (index, field, value) => {
+    const updatedResources = [...formData.resources];
+    updatedResources[index][field] = value;
+    setFormData({ ...formData, resources: updatedResources });
+  };
+
+  const updateEvent = (updatedEvent) => {
     return axios
-      .post(API_URL, newEvent)
-      .then((response) => {
-        console.log("Event Created:", response.data);
+      .patch(`${API_URL}/events/${id}.json`, updatedEvent)
+      .then(() => {
+        console.log("Event Updated");
         return true;
       })
       .catch((err) => {
@@ -67,43 +92,28 @@ const UpdateEventPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const { country, city, resourcesInputs, ...rest } = formData;
+    const { country, city, resources, ...rest } = formData;
 
-    const filledResources = resourcesInputs.filter(
+    const filledResources = resources.filter(
       (resource) =>
         resource.sourceTitle.trim() !== "" && resource.sourceURL.trim() !== ""
     );
 
-    const newEvent = {
+    const updatedEvent = {
       ...rest,
       location: {
         city,
         country,
       },
       resources: filledResources,
-      ratings: {
-        atmosphere: 0,
-        facilities: 0,
-        musicQuality: 0,
-        organization: 0,
-        overallExperience: 0,
-        safety: 0,
-        valueForMoney: 0,
-      },
     };
 
-    checkDuplicateEvent(newEvent.name)
+    checkDuplicateEvent(updatedEvent.name)
       .then((isDuplicate) => {
         if (isDuplicate) {
           alert("An event with this name already exists!");
         } else {
-          createEvent(newEvent).then((success) => {
-            if (success) {
-              navigate("/admin/events");
-            } else {
-              alert("Failed to create event. Please try again.");
-            }
-          });
+          updateEvent(updatedEvent);
         }
       })
       .catch((err) => {
@@ -112,15 +122,7 @@ const UpdateEventPage = () => {
       });
   };
 
-  const handleResourceChange = (index, field, value) => {
-    const updatedResources = [...formData.resourcesInputs];
-    updatedResources[index][field] = value;
-    setFormData({ ...formData, resourcesInputs: updatedResources });
-  };
-
-  if (!eventData) {
-    return <p>Loading...</p>;
-  }
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -135,7 +137,7 @@ const UpdateEventPage = () => {
             <label className="label">Event Name</label>
             <input
               type="text"
-              value={eventData.name}
+              value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
@@ -147,7 +149,7 @@ const UpdateEventPage = () => {
           <div className="form-control">
             <label className="label">Event Description</label>
             <textarea
-              value={eventData.description}
+              value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
@@ -160,7 +162,7 @@ const UpdateEventPage = () => {
             <label className="label">Capacity</label>
             <input
               type="number"
-              value={eventData.capacity}
+              value={formData.capacity}
               onChange={(e) =>
                 setFormData({ ...formData, capacity: e.target.value })
               }
@@ -172,7 +174,7 @@ const UpdateEventPage = () => {
             <label className="label">Country</label>
             <input
               type="text"
-              value={eventData.country}
+              value={formData.country}
               onChange={(e) =>
                 setFormData({ ...formData, country: e.target.value })
               }
@@ -185,7 +187,7 @@ const UpdateEventPage = () => {
             <label className="label">City</label>
             <input
               type="text"
-              value={eventData.city}
+              value={formData.city}
               onChange={(e) =>
                 setFormData({ ...formData, city: e.target.value })
               }
@@ -198,7 +200,7 @@ const UpdateEventPage = () => {
             <label className="label">Official Website</label>
             <input
               type="text"
-              value={eventData.website}
+              value={formData.website}
               onChange={(e) =>
                 setFormData({ ...formData, website: e.target.value })
               }
@@ -207,81 +209,38 @@ const UpdateEventPage = () => {
           </div>
 
           {/* Resource Inputs */}
-          <div className="form-control">
-            <label className="label">Resource 1</label>
-            <div className="flex gap-2">
-              <input
-                className="w-1/3 input input-bordered"
-                type="text"
-                placeholder="Title"
-                value={eventData.resources[0].sourceTitle}
-                onChange={(e) =>
-                  handleResourceChange(0, "sourceTitle", e.target.value)
-                }
-              />
-              <input
-                className="w-2/3 input input-bordered"
-                type="text"
-                placeholder="Link"
-                value={eventData.resources[0].sourceURL}
-                onChange={(e) =>
-                  handleResourceChange(0, "sourceURL", e.target.value)
-                }
-              />
+          {[0, 1, 2].map((index) => (
+            <div key={index} className="form-control">
+              <label className="label">{`Resource ${index + 1}`}</label>
+              <div className="flex gap-2">
+                <input
+                  className="w-1/3 input input-bordered"
+                  type="text"
+                  placeholder="Title"
+                  value={formData.resources[index]?.sourceTitle || ""}
+                  onChange={(e) =>
+                    handleResourceChange(index, "sourceTitle", e.target.value)
+                  }
+                />
+                <input
+                  className="w-2/3 input input-bordered"
+                  type="text"
+                  placeholder="Link"
+                  value={formData.resources[index]?.sourceURL || ""}
+                  onChange={(e) =>
+                    handleResourceChange(index, "sourceURL", e.target.value)
+                  }
+                />
+              </div>
             </div>
-          </div>
+          ))}
 
-          <div className="form-control">
-            <label className="label">Resource 2</label>
-            <div className="flex gap-2">
-              <input
-                className="w-1/3 input input-bordered"
-                type="text"
-                placeholder="Title"
-                value={eventData.resources[1].sourceTitle}
-                onChange={(e) =>
-                  handleResourceChange(1, "sourceTitle", e.target.value)
-                }
-              />
-              <input
-                className="w-2/3 input input-bordered"
-                type="text"
-                placeholder="Link"
-                value={eventData.resources[1].sourceURL}
-                onChange={(e) =>
-                  handleResourceChange(1, "sourceURL", e.target.value)
-                }
-              />
-            </div>
-          </div>
-
-          <div className="form-control">
-            <label className="label">Resource 3</label>
-            <div className="flex gap-2">
-              <input
-                className="w-1/3 input input-bordered"
-                type="text"
-                placeholder="Title"
-                value={eventData.resources[2].sourceTitle}
-                onChange={(e) =>
-                  handleResourceChange(2, "sourceTitle", e.target.value)
-                }
-              />
-              <input
-                className="w-2/3 input input-bordered"
-                type="text"
-                placeholder="Link"
-                value={eventData.resources[2].sourceURL}
-                onChange={(e) =>
-                  handleResourceChange(2, "sourceURL", e.target.value)
-                }
-              />
-            </div>
-          </div>
-
-          <div className="text-center mt-6">
+          <div className="mt-6 gap-2 flex justify-center">
             <button type="submit" className="btn btn-primary w-auto">
-              Create Event
+              Update Event
+            </button>
+            <button className="btn btn-alert" onClick={() => navigate(-1)}>
+              Cancel
             </button>
           </div>
         </form>

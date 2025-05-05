@@ -51,3 +51,11 @@ form textarea {
 .btn-primary {
     @apply bg-blue-500 text-white hover:bg-blue-600/90;
 }
+
+.btn-alert {
+    @apply bg-yellow-500 text-white hover:bg-yellow-600/90;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600/90;
+}

@@ -9,7 +9,7 @@ const AdminEventsListPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}.json`)
+      .get(`${API_URL}/events.json`)
       .then((response) => {
         const eventsArr = Object.keys(response.data).map((id) => ({
           id,
@@ -22,10 +22,7 @@ const AdminEventsListPage = () => {
       });
   }, []);
 
-  if (!events) {
-    return <p>Loading...</p>;
-  }
-
+  // Calculate Average Rating
   const averageRating = (ratingsObj) => {
     if (!ratingsObj || typeof ratingsObj !== "object") return 0;
 
@@ -35,13 +32,34 @@ const AdminEventsListPage = () => {
     if (values.length === 0) return 0;
 
     const sum = values.reduce((acc, val) => acc + val, 0);
-    return (sum / values.length).toFixed(2);
+    return (sum / values.length).toFixed(1);
   };
+
+  //Delete Event
+  const deleteEvent = (id) => {
+    return axios
+      .delete(`${API_URL}/events/${id}.json`)
+      .then(() => {
+        console.log("Event Deleted");
+        setEvents(events.filter((event) => event.id !== id));
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
+  };
+
+  if (!events) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-center">All Events List</h1>
+        <h1 className="text-2xl font-semibold text-center">
+          All Events List ({events.length})
+        </h1>
         <Link to={"/admin/events/create"}>Add New Event</Link>
       </div>
 
@@ -64,7 +82,9 @@ const AdminEventsListPage = () => {
                 <td>{event.name}</td>
                 <td>{event.location.country}</td>
                 <td>{event.location.city}</td>
-                {/* <td>{event.reviews.length}</td> */}
+                <td>
+                  {!event.reviews ? 0 : Object.keys(event.reviews).length}
+                </td>
                 <td>{averageRating(event.ratings)}</td>
                 <td>
                   <Link
@@ -75,7 +95,12 @@ const AdminEventsListPage = () => {
                   </Link>
                 </td>
                 <td>
-                  <button className="hover:text-red-500">Delete</button>
+                  <button
+                    className="hover:text-red-500 cursor-pointer"
+                    onClick={() => deleteEvent(event.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
