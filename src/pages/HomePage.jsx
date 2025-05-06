@@ -2,13 +2,14 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { API_URL } from '../config/api';
 
 const HomePage = () => {
   const [events, setEvents] = useState(null);
 
   useEffect(() => {
     axios
-      .get('https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events.json')
+      .get(`${API_URL}/events.json`)
       .then((response) => {
         const eventsArr = Object.keys(response.data).map((id) => ({
           id,
@@ -42,7 +43,7 @@ const HomePage = () => {
           <div className="card border-gray-900 my-1.5" key={event.id}>
             <p>{event.name}</p>
             <div className="flex justify-between items-center">
-              <div className="img-placeholder w-50 h-30 border border-solid border-gray-900">Img placeholder </div>
+              <img src={event.imageSource} alt={event.imageSource} className="h-30 w-50 object-cover" />
               <p>
                 {event.location.city}, {event.location.country}
               </p>
