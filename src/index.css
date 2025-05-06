@@ -1,9 +1,37 @@
 @import "tailwindcss";
 
+body {
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: #333;
+}
+
 .Header ul li {
-    @apply text-lg font-semibold;
+  @apply text-lg font-semibold hover:text-purple-600;
 }
 
 .Header ul li a.active {
-    @apply text-orange-600;
+  @apply text-purple-600;
+}
+
+#adminPage ul li a {
+  @apply flex py-4 px-5 text-lg text-purple-900 rounded-tl-xl rounded-bl-xl hover:bg-purple-50 hover:inset-shadow-sm hover:inset-shadow-purple-100 duration-300;
+}
+
+#adminPage ul li a.active {
+  @apply bg-purple-50 font-semibold inset-shadow-sm inset-shadow-purple-100;
+}
+
+.admin-header {
+  @apply flex justify-between items-center px-4 h-[60px] bg-purple-50 rounded-xl inset-shadow-sm inset-shadow-purple-100;
+}
+
+.admin-header h1 {
+  @apply text-xl font-semibold text-center text-purple-800;
+}
+
+.admin-header .btn-link {
+  @apply text-purple-800 hover:underline;
 }

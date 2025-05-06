@@ -1,23 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import AdminEventsListPage from "./AdminEventListPage";
 
 const AdminDashboardPage = () => {
   return (
-    <div>
-      <h2 className="text-2xl font-semibold">Welcome Admin</h2>
-      <p className="text-lg">You can choose your option:</p>
-      <div className="flex my-10 gap-10">
-        <Link
-          className="border-2 p-5 flex-1 text-center text-lg font-bold hover:bg-gray-200"
-          to={"/admin/events"}
-        >
-          List of Events
-        </Link>
-        <Link
-          className="border-2 p-5 flex-1 text-center text-lg font-bold hover:bg-gray-200"
-          to={"/admin/reviews"}
-        >
-          List of Reviews
-        </Link>
+    <div className="flex" id="adminPage">
+      <div className="w-2/10">
+        <ul className="flex flex-col gap-2">
+          <li>
+            <NavLink to={"/admin/events"}>List of Events</NavLink>
+          </li>
+          <li>
+            <NavLink to={"/admin/reviews"}>List of Reviews</NavLink>
+          </li>
+        </ul>
+      </div>
+      <div className="w-8/10 border-l-2 border-gray-100 pl-10">
+        <Outlet />
       </div>
     </div>
   );

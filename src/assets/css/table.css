@@ -2,30 +2,30 @@
 
 /* Tables Initial Style  */
 table {
-    @apply w-full my-8 text-[15px];
+    @apply w-full;
 }
 
 table thead {
-    @apply bg-gray-100;
+    @apply bg-blue-50 text-blue-800;
 }
 
 table thead th {
-    @apply text-center py-3 border-b-2 border-gray-300 font-semibold;
+    @apply text-center py-4 border-b-2 border-blue-200 font-semibold first:rounded-tl-xl last:rounded-tr-xl;
 }
 
 table tbody td {
-    @apply text-center py-1.5 px-3 border-b border-gray-300 text-gray-500;
+    @apply text-center py-2.5 px-3 border-b border-blue-100 text-blue-900;
 
 }
 
 table tbody tr:hover td {
-    @apply text-black bg-gray-50
+    @apply text-black bg-blue-50/50
 }
 
 
 /* Form Initial Style */
 form {
-    @apply bg-gray-100 px-10 py-8 rounded-2xl flex flex-col gap-3;
+    @apply bg-gray-100/75 px-10 py-8 rounded-xl flex flex-col gap-3;
 }
 
 form .form-control {
@@ -45,7 +45,7 @@ form textarea {
 }
 
 .btn {
-    @apply bg-gray-200 py-2 px-5 rounded-lg hover:bg-gray-300 cursor-pointer;
+    @apply bg-gray-200 py-2 px-4 rounded-lg hover:bg-gray-300 cursor-pointer;
 }
 
 .btn-primary {
