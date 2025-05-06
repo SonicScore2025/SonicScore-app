@@ -38,20 +38,26 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>HomePage</h1>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-5">
         {events.map((event) => (
-          <div className="card border-gray-900 my-1.5" key={event.id}>
-            <p>{event.name}</p>
-            <div className="flex justify-between items-center">
-              <img src={event.imageSource} alt={event.imageSource} className="h-30 w-50 object-cover" />
-              <p>
+          <div
+            className="card hover:shadow-lg hover:bg-purple-50 flex flex-col border-2 border-purple-200 my-1.5 rounded-xl"
+            key={event.id}
+          >
+            <img src={event.imageSource} alt={event.imageSource} className="object-cover rounded-tl-xl rounded-tr-xl" />
+            <div className="p-5">
+              <p className="text-2xl font-extrabold mb-2">{event.name}</p>
+              <p className="text-xl mb-2">
                 {event.location.city}, {event.location.country}
               </p>
-              <p>capacity: {event.capacity}</p>
-              <p>rating: {totalRating(event.ratings)}</p>
+              <p className="text-lg mb-2">
+                <strong>Capacity:</strong> {event.capacity}
+              </p>
+              <p className="text-lg">
+                <strong>Rating:</strong> {totalRating(event.ratings)}
+              </p>
               <Link to={`/event/${event.id}`}>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <button className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Details
                 </button>
               </Link>

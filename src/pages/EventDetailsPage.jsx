@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { API_URL } from '../config/api';
+import { GlobeSimple, Star } from '@phosphor-icons/react';
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
@@ -76,52 +77,61 @@ const EventDetailsPage = () => {
 
   return (
     <div>
-      <h1>{event.name}</h1>
-      <div className="w-40">
-        <img src={event.imageSource} alt={event.name} />
-      </div>
-      <div className="event-info">
-        <p>
+      <div className="mb-5">
+        <div className="mb-4">
+          <img src={event.imageSource} alt={event.name} />
+        </div>
+        <h1 className="text-3xl font-bold mb-4 text-purple-800">{event.name}</h1>
+        <p className="text-2xl font-semibold mb-2">
           {event.location.city}, {event.location.country}
         </p>
-        <p>capacity: {event.capacity}</p>
-        <Link to={event.website} target="_blank">
-          {event.website}
+        <p className="text-xl font-semibold mb-3">Capacity: {event.capacity}</p>
+        <Link
+          to={event.website}
+          target="_blank"
+          className="text-xl font-semibold mb-6 flex gap-2 items-center text-blue-900"
+        >
+          <GlobeSimple size={24} weight="duotone" /> Official Website
         </Link>
-      </div>
 
-      <div className="ratings">
-        <p>Festival Rating</p>
-        <ul>
-          {Object.keys(event.ratings).map((rating, i) => {
-            return (
-              <li key={i}>
-                {translateKeys(rating)}: {calcRating(event.reviews)[i]}
-                {/* {translateKeys(rating)}: {event.ratings[rating]} */}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-
-      {event.resources && (
-        <div className="resources">
-          {event.resources.map((resource, i) => {
-            return (
-              <div key={i}>
-                <p>{resource.sourceTitle}</p>
-                <Link to={resource.sourceURL} target="_blank">
-                  <p>{resource.sourceURL}</p>
-                </Link>
-              </div>
-            );
-          })}
+        <div className="ratings border-2 p-5 my-4 rounded-xl bg-purple-50 border-purple-200">
+          <p className="flex items-center justify-between gap-2 text-xl font-bold mb-2 text-purple-800">
+            Festival Rating <Star size={24} weight="duotone" />
+          </p>
+          <ul className="text-lg space-y-1 font-medium text-blue-900">
+            {Object.keys(event.ratings).map((rating, i) => {
+              return (
+                <li key={i} className="flex items-center justify-between">
+                  <strong>{translateKeys(rating)}: </strong>
+                  <span className="text-xl font-bold">{calcRating(event.reviews)[i]}</span>
+                  {/* {translateKeys(rating)}: {event.ratings[rating]} */}
+                </li>
+              );
+            })}
+          </ul>
         </div>
-      )}
 
-      <Link to={'/'}>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button>
-      </Link>
+        <Link to={'/'}>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button>
+        </Link>
+
+        {event.resources && (
+          <div className="resources">
+            {event.resources.map((resource, i) => {
+              return (
+                <div key={i}>
+                  <p className="text-lg mt-5 text-gray-400">
+                    {resource.sourceTitle}:{' '}
+                    <Link to={resource.sourceURL} target="_blank">
+                      Click to visit
+                    </Link>
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
       {event.reviews && (
         <div className="reviews" key={event.reviews.reviewId}>
           {Object.entries(event.reviews).map(([key, value], i) => {
