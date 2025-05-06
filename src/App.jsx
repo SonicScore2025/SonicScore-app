@@ -17,6 +17,11 @@ import AdminCreateEventPage from './pages/AdminCreateEventPage';
 import AdminUpdateEventPage from './pages/AdminUpdateEventPage';
 import AdminRatingsListPage from './pages/AdminRatingsListPage';
 
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminEventsListPage from './pages/AdminEventListPage';
+import AdminCreateEventPage from './pages/AdminCreateEventPage';
+import AdminUpdateEventPage from './pages/AdminUpdateEventPage';
+import AdminReviewsListPage from './pages/AdminReviewsListPage';
 function App() {
   return (
     <div className="container max-w-6xl mx-auto">
@@ -35,6 +40,9 @@ function App() {
           <Route path="/admin/events/create" element={<AdminCreateEventPage />} />
           <Route path="/admin/event/:id/update" element={<AdminUpdateEventPage />} />
           <Route path="/admin/ratings" element={<AdminRatingsListPage />} />
+          <Route path="/admin/events/create" element={<AdminCreateEventPage />} />
+          <Route path="/admin/event/:id/update" element={<AdminUpdateEventPage />} />
+          <Route path="/admin/reviews" element={<AdminReviewsListPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

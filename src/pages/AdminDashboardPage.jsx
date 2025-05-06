@@ -14,9 +14,9 @@ const AdminDashboardPage = () => {
         </Link>
         <Link
           className="border-2 p-5 flex-1 text-center text-lg font-bold hover:bg-gray-200"
-          to={"/admin/ratings"}
+          to={"/admin/reviews"}
         >
-          List of Ratings
+          List of Reviews
         </Link>
       </div>
     </div>
