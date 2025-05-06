@@ -2,60 +2,58 @@
 
 /* Tables Initial Style  */
 table {
-    @apply w-full;
+  @apply w-full;
 }
 
 table thead {
-    @apply bg-blue-50 text-blue-800;
+  @apply bg-blue-50 text-blue-800;
 }
 
 table thead th {
-    @apply text-center py-4 border-b-2 border-blue-200 font-semibold first:rounded-tl-xl last:rounded-tr-xl;
+  @apply text-center py-4 border-b-2 border-blue-200 font-semibold first:rounded-tl-xl last:rounded-tr-xl;
 }
 
 table tbody td {
-    @apply text-center py-2.5 px-3 border-b border-blue-100 text-blue-900;
-
+  @apply text-center py-2.5 px-3 border-b border-blue-100 text-blue-900;
 }
 
 table tbody tr:hover td {
-    @apply text-black bg-blue-50/50
+  @apply text-black bg-blue-50/50;
 }
-
 
 /* Form Initial Style */
 form {
-    @apply bg-gray-100/75 px-10 py-8 rounded-xl flex flex-col gap-3;
+  @apply bg-gray-100/75 px-10 py-8 rounded-xl flex flex-col gap-3;
 }
 
 form .form-control {
-    @apply flex flex-col gap-1.5;
+  @apply flex flex-col gap-1.5;
 }
 
 form label {
-    @apply font-semibold px-1;
+  @apply font-semibold px-1;
 }
 
 form input {
-    @apply border border-gray-300 px-3 py-2 rounded-lg bg-white;
+  @apply border border-gray-300 px-3 py-2 rounded-lg bg-white;
 }
 
 form textarea {
-    @apply flex-1 border border-gray-300 p-2 rounded-lg bg-white;
+  @apply flex-1 border border-gray-300 p-2 rounded-lg bg-white;
 }
 
 .btn {
-    @apply bg-gray-200 py-2 px-4 rounded-lg hover:bg-gray-300 cursor-pointer;
+  @apply bg-gray-200 py-2 px-4 rounded-lg hover:bg-gray-300 cursor-pointer;
 }
 
 .btn-primary {
-    @apply bg-blue-500 text-white hover:bg-blue-600/90;
+  @apply bg-purple-700 text-white hover:bg-purple-800;
 }
 
 .btn-alert {
-    @apply bg-yellow-500 text-white hover:bg-yellow-600/90;
+  @apply bg-yellow-500 text-white hover:bg-yellow-600/90;
 }
 
 .btn-danger {
-    @apply bg-red-500 text-white hover:bg-red-600/90;
+  @apply bg-red-500 text-white hover:bg-red-600/90;
 }

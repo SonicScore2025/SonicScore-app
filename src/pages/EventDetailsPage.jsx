@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { API_URL } from '../config/api';
-import { GlobeSimple, Star } from '@phosphor-icons/react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { API_URL } from "../config/api";
+import { GlobeSimple, Star } from "@phosphor-icons/react";
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
@@ -20,20 +20,20 @@ const EventDetailsPage = () => {
   }, []);
 
   const translateKeys = (key) => {
-    if (key === 'atmosphere') {
-      return 'Atmosphere';
-    } else if (key === 'facilities') {
-      return 'Facilities';
-    } else if (key === 'musicQuality') {
-      return 'Music Quality';
-    } else if (key === 'organization') {
-      return 'Organization';
-    } else if (key === 'safety') {
-      return 'Safety';
-    } else if (key === 'valueForMoney') {
-      return 'Value for Money';
-    } else if (key === 'overallExperience') {
-      return 'Overall Experience';
+    if (key === "atmosphere") {
+      return "Atmosphere";
+    } else if (key === "facilities") {
+      return "Facilities";
+    } else if (key === "musicQuality") {
+      return "Music Quality";
+    } else if (key === "organization") {
+      return "Organization";
+    } else if (key === "safety") {
+      return "Safety";
+    } else if (key === "valueForMoney") {
+      return "Value for Money";
+    } else if (key === "overallExperience") {
+      return "Overall Experience";
     }
   };
 
@@ -76,107 +76,125 @@ const EventDetailsPage = () => {
   }
 
   return (
-    <div>
-      <div className="mb-5">
-        <div className="mb-4">
-          <img src={event.imageSource} alt={event.name} />
-        </div>
-        <h1 className="text-3xl font-bold mb-4 text-purple-800">{event.name}</h1>
-        <p className="text-2xl font-semibold mb-2">
-          {event.location.city}, {event.location.country}
-        </p>
-        <p className="text-xl font-semibold mb-3">Capacity: {event.capacity}</p>
-        <Link
-          to={event.website}
-          target="_blank"
-          className="text-xl font-semibold mb-6 flex gap-2 items-center text-blue-900"
-        >
-          <GlobeSimple size={24} weight="duotone" /> Official Website
-        </Link>
-
-        <div className="ratings border-2 p-5 my-4 rounded-xl bg-purple-50 border-purple-200">
-          <p className="flex items-center justify-between gap-2 text-xl font-bold mb-2 text-purple-800">
-            Festival Rating <Star size={24} weight="duotone" />
-          </p>
-          <ul className="text-lg space-y-1 font-medium text-blue-900">
-            {Object.keys(event.ratings).map((rating, i) => {
-              return (
-                <li key={i} className="flex items-center justify-between">
-                  <strong>{translateKeys(rating)}: </strong>
-                  <span className="text-xl font-bold">{calcRating(event.reviews)[i]}</span>
-                  {/* {translateKeys(rating)}: {event.ratings[rating]} */}
-                </li>
-              );
-            })}
-          </ul>
+    <div className="eventDetailsPage">
+      <div className="eventDetails mb-10">
+        <div className="mb-6">
+          <img
+            src={event.imageSource}
+            alt={event.name}
+            className="rounded-xl aspect-square md:aspect-6/2 object-cover"
+          />
         </div>
 
-        <Link to={'/'}>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button>
-        </Link>
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4">
+          <div className="col-span-2 md:row-span-2">
+            <h1 className="text-3xl font-bold mb-4 text-purple-800">
+              {event.name}
+            </h1>
+            <p className="text-2xl font-semibold mb-2">
+              {event.location.city}, {event.location.country}
+            </p>
+            <p className="text-xl font-semibold mb-3">
+              Capacity: {event.capacity}
+            </p>
+            <Link
+              to={event.website}
+              target="_blank"
+              className="text-xl font-semibold flex gap-2 items-center text-blue-900"
+            >
+              <GlobeSimple size={24} weight="duotone" /> Official Website
+            </Link>
+          </div>
 
-        {event.resources && (
-          <div className="resources">
-            {event.resources.map((resource, i) => {
+          <div className="ratings border-2 p-5 rounded-xl bg-purple-50 border-purple-200 col-span-1 md:row-span-3">
+            <p className="flex items-center justify-between gap-2 text-xl font-bold mb-2 text-purple-800">
+              Festival Rating <Star size={24} weight="duotone" />
+            </p>
+            <ul className="text-lg space-y-1 font-medium text-blue-900">
+              {Object.keys(event.ratings).map((rating, i) => {
+                return (
+                  <li key={i} className="flex items-center justify-between">
+                    <strong>{translateKeys(rating)}: </strong>
+                    <span className="text-xl font-bold">
+                      {calcRating(event.reviews)[i]}
+                    </span>
+                    {/* {translateKeys(rating)}: {event.ratings[rating]} */}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div className="col-span-2 md:row-span-1 flex flex-col-reverse justify-end gap-4">
+            <Link to={"/"}>
+              <button className="btn btn-secondary">Back</button>
+            </Link>
+
+            {event.resources && (
+              <div className="resources">
+                {event.resources.map((resource, i) => {
+                  return (
+                    <div key={i}>
+                      <p className="text-gray-400 hover:text-gray-600">
+                        {resource.sourceTitle}:{" "}
+                        <Link to={resource.sourceURL} target="_blank">
+                          Click to visit
+                        </Link>
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="reviewsSection border-t-2 border-gray-100 pt-5">
+        <Link to={`/event/create-review/${id}`}>
+          <button className="btn btn-primary w-full md:w-auto mb-5">
+            Add Review
+          </button>
+        </Link>
+        {event.reviews && (
+          <div className="reviews flex flex-col gap-4" key={event.reviews.reviewId}>
+            {Object.entries(event.reviews).map(([key, value], i) => {
               return (
-                <div key={i}>
-                  <p className="text-lg mt-5 text-gray-400">
-                    {resource.sourceTitle}:{' '}
-                    <Link to={resource.sourceURL} target="_blank">
-                      Click to visit
+                <div key={i} className="border-2 border-gray-200 p-8 rounded-xl">
+                  <p>{value.date}</p>
+                  <p>UserName placeholder</p>
+                  <div>
+                    <ul>
+                      {Object.entries(value.ratings).map(([key, value], i) => {
+                        return (
+                          <li key={i}>
+                            {translateKeys(key)}: {value}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <p>{value.reviewText}</p>
+                  <div className="review-buttons">
+                    <button
+                      onClick={() => {
+                        deleteHandler(key);
+                      }}
+                      className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                    >
+                      Delete Review
+                    </button>
+                    <Link to={`/event/edit-review/${id}/${key}`}>
+                      <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                        Edit Review
+                      </button>
                     </Link>
-                  </p>
+                  </div>
                 </div>
               );
             })}
           </div>
         )}
-      </div>
-      {event.reviews && (
-        <div className="reviews" key={event.reviews.reviewId}>
-          {Object.entries(event.reviews).map(([key, value], i) => {
-            return (
-              <div key={i}>
-                <p>{value.date}</p>
-                <p>UserName placeholder</p>
-                <div>
-                  <ul>
-                    {Object.entries(value.ratings).map(([key, value], i) => {
-                      return (
-                        <li key={i}>
-                          {translateKeys(key)}: {value}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-                <p>{value.reviewText}</p>
-                <div className="review-buttons">
-                  <button
-                    onClick={() => {
-                      deleteHandler(key);
-                    }}
-                    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                  >
-                    Delete Review
-                  </button>
-                  <Link to={`/event/edit-review/${id}/${key}`}>
-                    <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                      Edit Review
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <div>
-        <Link to={`/event/create-review/${id}`}>
-          <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-            Add Review
-          </button>
-        </Link>
       </div>
     </div>
   );
