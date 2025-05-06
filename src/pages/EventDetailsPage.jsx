@@ -110,11 +110,6 @@ const EventDetailsPage = () => {
             })}
           </ul>
         </div>
-
-        <Link to={'/'}>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Back</button>
-        </Link>
-
         {event.resources && (
           <div className="resources">
             {event.resources.map((resource, i) => {
@@ -131,52 +126,69 @@ const EventDetailsPage = () => {
             })}
           </div>
         )}
+        <div className="mt-5">
+          {/* flex items-center justify-between */}
+          <Link to={`/event/create-review/${id}`}>
+            <button className="w-full bg-transparent hover:bg-blue-800 text-blue-900 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded">
+              Add Review
+            </button>
+          </Link>
+          <Link to={'/'}>
+            <button className="w-full mt-3 bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+              Back
+            </button>
+          </Link>
+        </div>
       </div>
-      {event.reviews && (
-        <div className="reviews" key={event.reviews.reviewId}>
-          {Object.entries(event.reviews).map(([key, value], i) => {
-            return (
-              <div key={i}>
-                <p>{value.date}</p>
-                <p>UserName placeholder</p>
-                <div>
-                  <ul>
+
+      <div className="mt-20">
+        <h2 className="text-xl font-bold">User Reviews</h2>
+        {event.reviews && (
+          <div className="text-lg" key={event.reviews.reviewId}>
+            {Object.entries(event.reviews).map(([key, value], i) => {
+              return (
+                <div className="mt-3 flex flex-col border-2 border-purple-200 rounded-2xl" key={i}>
+                  <div className="flex justify-between">
+                    {/* <div className="flex justify-between border-b-2 border-purple-200 my-3 mx-4 pb-2"> */}
+                    <p className="my-3 mx-4">UserName placeholder</p>
+                    <p className="my-3 mx-4">{value.date}</p>
+                  </div>
+                  {/* <div className="px-8 flex"> */}
+                  <ul className="px-14 py-3 text-blue-900">
                     {Object.entries(value.ratings).map(([key, value], i) => {
                       return (
-                        <li key={i}>
-                          {translateKeys(key)}: {value}
+                        <li className="flex justify-between" key={i}>
+                          <span className="font-semibold">{translateKeys(key)}:</span>
+                          <span>
+                            <strong>{value} </strong>
+                          </span>
                         </li>
                       );
                     })}
                   </ul>
-                </div>
-                <p>{value.reviewText}</p>
-                <div className="review-buttons">
-                  <button
-                    onClick={() => {
-                      deleteHandler(key);
-                    }}
-                    className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                  >
-                    Delete Review
-                  </button>
-                  <Link to={`/event/edit-review/${id}/${key}`}>
-                    <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                      Edit Review
+                  {/* </div> */}
+                  <p className="p-5">{value.reviewText}</p>
+                  <div className="flex flex-col mx-3">
+                    <Link to={`/event/edit-review/${id}/${key}`}>
+                      <button className="bg-transparent hover:bg-blue-800 text-blue-900 font-semibold hover:text-white py-2 px-4 w-full mb-3 border border-blue-800 hover:border-transparent rounded">
+                        Edit Review
+                      </button>
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        deleteHandler(key);
+                      }}
+                      className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 w-full mb-3 border border-red-500 hover:border-transparent rounded"
+                    >
+                      Delete Review
                     </button>
-                  </Link>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <div>
-        <Link to={`/event/create-review/${id}`}>
-          <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-            Add Review
-          </button>
-        </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
