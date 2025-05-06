@@ -1,69 +1,34 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { API_URL } from "../config/api";
-import "../assets/css/table.css";
 import { Link } from "react-router-dom";
+import { API_URL } from "../config/api";
 
-const AdminEventsListPage = () => {
-  const [events, setEvents] = useState(null);
+const AdminRatingsListPage = () => {
+  const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/events.json`)
+      .get(`${API_URL}/events/reviews.json`)
       .then((response) => {
-        const eventsArr = Object.keys(response.data).map((id) => ({
+        const reviewsArr = Object.keys(response.data).map((id) => ({
           id,
           ...response.data[id],
         }));
-        setEvents(eventsArr);
+        setReviews(reviewsArr);
+        console.log(reviewsArr);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  // Calculate Average Rating
-  const averageRating = (ratingsObj) => {
-    if (!ratingsObj || typeof ratingsObj !== "object") return 0;
-
-    const values = Object.values(ratingsObj).filter(
-      (val) => typeof val === "number"
-    );
-    if (values.length === 0) return 0;
-
-    const sum = values.reduce((acc, val) => acc + val, 0);
-    return (sum / values.length).toFixed(1);
-  };
-
-  //Delete Event
-  const deleteEvent = (id) => {
-    return axios
-      .delete(`${API_URL}/events/${id}.json`)
-      .then(() => {
-        console.log("Event Deleted");
-        setEvents(events.filter((event) => event.id !== id));
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-        return false;
-      });
-  };
-
-  if (!events) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <div>
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-center">
-          All Events List ({events.length})
+          All Reviews List ()
         </h1>
-        <div className="flex gap-8">
-          <Link to={"/admin/events/create"}>Add New Event</Link>
-          <Link to={"/admin/"}>Back to Admin</Link>
-        </div>
+        <Link to={"/admin"}>Back to Admin</Link>
       </div>
 
       <div>
@@ -80,7 +45,7 @@ const AdminEventsListPage = () => {
             </tr>
           </thead>
           <tbody>
-            {events.map((event) => (
+            {/* {events.map((event) => (
               <tr className="card" key={event.id}>
                 <td>{event.name}</td>
                 <td>{event.location.country}</td>
@@ -106,7 +71,7 @@ const AdminEventsListPage = () => {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
         </table>
       </div>
@@ -114,4 +79,4 @@ const AdminEventsListPage = () => {
   );
 };
 
-export default AdminEventsListPage;
+export default AdminRatingsListPage;

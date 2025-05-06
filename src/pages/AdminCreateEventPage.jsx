@@ -9,6 +9,7 @@ const CreateEventPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    imageSource: "",
     capacity: "",
     country: "",
     city: "",
@@ -136,6 +137,19 @@ const CreateEventPage = () => {
               }
               required
               className="textarea textarea-bordered"
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">Image URL</label>
+            <input
+              type="text"
+              value={formData.imageSource}
+              onChange={(e) =>
+                setFormData({ ...formData, imageSource: e.target.value })
+              }
+              required
+              className="input input-bordered"
             />
           </div>
 

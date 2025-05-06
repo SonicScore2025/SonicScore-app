@@ -11,6 +11,7 @@ const UpdateEventPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    imageSource: "",
     capacity: "",
     country: "",
     city: "",
@@ -39,6 +40,7 @@ const UpdateEventPage = () => {
       setFormData({
         name: eventData.name || "",
         description: eventData.description || "",
+        imageSource: eventData.imageSource || "",
         capacity: eventData.capacity || "",
         country: eventData.location?.country || "",
         city: eventData.location?.city || "",
@@ -155,6 +157,19 @@ const UpdateEventPage = () => {
               }
               required
               className="textarea textarea-bordered"
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">Image URL</label>
+            <input
+              type="text"
+              value={formData.imageSource}
+              onChange={(e) =>
+                setFormData({ ...formData, imageSource: e.target.value })
+              }
+              required
+              className="input input-bordered"
             />
           </div>
 
