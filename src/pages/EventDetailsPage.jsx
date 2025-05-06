@@ -57,8 +57,9 @@ const EventDetailsPage = () => {
   return (
     <div>
       <h1>{event.name}</h1>
-
-      <div className="img-placeholder w-50 h-30 border border-gray-900">Img placeholder </div>
+      <div className="w-40">
+        <img src={event.imageSource} alt={event.name} />
+      </div>
 
       <div className="location">
         <p>{event.location.city}</p>
