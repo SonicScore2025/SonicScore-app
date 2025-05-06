@@ -2,7 +2,7 @@
 
 /* Tables Initial Style  */
 table {
-  @apply w-full;
+  @apply w-full min-w-full table-auto;
 }
 
 table thead {
@@ -10,11 +10,11 @@ table thead {
 }
 
 table thead th {
-  @apply text-center py-4 border-b-2 border-blue-200 font-semibold first:rounded-tl-xl last:rounded-tr-xl;
+  @apply text-center py-4 px-6 border-b-2 border-blue-200 font-semibold first:rounded-tl-xl last:rounded-tr-xl whitespace-nowrap;
 }
 
 table tbody td {
-  @apply text-center py-2.5 px-3 border-b border-blue-100 text-blue-900;
+  @apply text-center py-2.5 px-3 border-b border-blue-100 text-blue-900 whitespace-nowrap;
 }
 
 table tbody tr:hover td {
@@ -43,11 +43,15 @@ form textarea {
 }
 
 .btn {
-  @apply bg-gray-200 py-2 px-4 rounded-lg hover:bg-gray-300 cursor-pointer;
+  @apply py-2.5 px-4 rounded-lg  cursor-pointer border-2 font-semibold duration-300;
+}
+
+.btn-secondary {
+  @apply border-gray-400 text-gray-500 hover:text-white hover:bg-gray-400;
 }
 
 .btn-primary {
-  @apply bg-purple-700 text-white hover:bg-purple-800;
+  @apply border-purple-700 hover:text-white hover:bg-purple-700 text-purple-900;
 }
 
 .btn-alert {
