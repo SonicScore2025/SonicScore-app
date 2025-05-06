@@ -2,6 +2,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_URL } from '../config/api';
 
 function CreateReview() {
   const { id } = useParams();
@@ -41,10 +42,7 @@ function CreateReview() {
     };
 
     axios
-      .post(
-        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}/reviews.json`,
-        newReview
-      )
+      .post(`${API_URL}/events/${id}/reviews.json`, newReview)
       .then((response) => {
         navigate(`/event/${id}`);
       })

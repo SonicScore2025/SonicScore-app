@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { API_URL } from '../config/api';
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
@@ -8,7 +9,7 @@ const EventDetailsPage = () => {
 
   useEffect(() => {
     axios
-      .get(`https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}.json`)
+      .get(`${API_URL}/events/${id}.json`)
       .then((response) => {
         setEvent(response.data);
       })
@@ -17,7 +18,7 @@ const EventDetailsPage = () => {
       });
   }, []);
 
-  const keysToString = (key) => {
+  const translateKeys = (key) => {
     if (key === 'atmosphere') {
       return 'Atmosphere';
     } else if (key === 'facilities') {
@@ -36,13 +37,10 @@ const EventDetailsPage = () => {
   };
 
   const deleteHandler = (reviewId) => {
-    console.log(id);
     axios
-      .delete(
-        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}/reviews/${reviewId}.json`
-      )
+      .delete(`${API_URL}/events/${id}/reviews/${reviewId}.json`)
       .then((response) => {
-        return axios.get(`https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}.json`);
+        return axios.get(`${API_URL}/events/${id}.json`);
       })
       .then((response) => {
         setEvent(response.data);
@@ -60,14 +58,15 @@ const EventDetailsPage = () => {
       <div className="w-40">
         <img src={event.imageSource} alt={event.name} />
       </div>
-
-      <div className="location">
-        <p>{event.location.city}</p>
-        <p>{event.location.country}</p>
-        <p>at {event.location.venue}</p>
+      <div className="event-info">
+        <p>
+          {event.location.city}, {event.location.country}
+        </p>
+        <p>capacity: {event.capacity}</p>
+        <Link to={event.website} target="_blank">
+          {event.website}
+        </Link>
       </div>
-
-      <p>capacity: {event.capacity}</p>
 
       <div className="ratings">
         <p>Festival Rating</p>
@@ -75,19 +74,26 @@ const EventDetailsPage = () => {
           {Object.keys(event.ratings).map((rating, i) => {
             return (
               <li key={i}>
-                {keysToString(rating)}: {event.ratings[rating]}
+                {translateKeys(rating)}: {event.ratings[rating]}
               </li>
             );
           })}
         </ul>
       </div>
 
-      {event.resouces && (
+      {event.resources && (
         <div className="resources">
-          <p>{event.resources[0].sourceName}</p>
-          <Link to={event.resources[0].sourceURL} target="_blank">
-            <p>{event.resources[0].sourceURL}</p>
-          </Link>
+          {event.resources.map((resource, i) => {
+            console.log(event.resources);
+            return (
+              <div key={i}>
+                <p>{resource.sourceTitle}</p>
+                <Link to={resource.sourceURL} target="_blank">
+                  <p>{resource.sourceURL}</p>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -106,7 +112,7 @@ const EventDetailsPage = () => {
                     {Object.entries(value.ratings).map(([key, value], i) => {
                       return (
                         <li key={i}>
-                          {keysToString(key)}: {value}
+                          {translateKeys(key)}: {value}
                         </li>
                       );
                     })}

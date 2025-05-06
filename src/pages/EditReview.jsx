@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_URL } from '../config/api';
 
 function EditReview() {
   const { id } = useParams();
@@ -18,9 +19,7 @@ function EditReview() {
 
   useEffect(() => {
     axios
-      .get(
-        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}/reviews/${reviewId}.json`
-      )
+      .get(`${API_URL}/events/${id}/reviews/${reviewId}.json`)
       .then((response) => {
         setAtmosphere(response.data.ratings.atmosphere);
         setFacilities(response.data.ratings.facilities);
@@ -57,14 +56,11 @@ function EditReview() {
     };
 
     axios
-      .patch(
-        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}/reviews/${reviewId}.json`,
-        editReview
-      )
+      .patch(`${API_URL}/events/${id}/reviews/${reviewId}.json`, editReview)
       .then((response) => {
         navigate(`/event/${id}`);
       })
-      .catch((err) => console.log(er));
+      .catch((err) => console.log(err));
   };
 
   return (
