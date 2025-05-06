@@ -39,12 +39,14 @@ const EventDetailsPage = () => {
     console.log(id);
     axios
       .delete(
-        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}//reviews/${reviewId}.json`
+        `https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}/reviews/${reviewId}.json`
       )
       .then((response) => {
         return axios.get(`https://sonicscore-api-default-rtdb.europe-west1.firebasedatabase.app/events/${id}.json`);
       })
-      .then((response) => setEvent(response.data))
+      .then((response) => {
+        setEvent(response.data);
+      })
       .catch((err) => console.log(err));
   };
 
@@ -119,7 +121,7 @@ const EventDetailsPage = () => {
                   >
                     Delete Review
                   </button>
-                  <Link to={`/event/edit-review/${id}`}>
+                  <Link to={`/event/edit-review/${id}/${key}`}>
                     <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                       Edit Review
                     </button>

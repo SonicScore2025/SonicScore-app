@@ -1,21 +1,21 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-import HomePage from "./pages/HomePage";
-import EventDetailsPage from "./pages/EventDetailsPage";
-import CreateReview from "./pages/CreateReview";
-import EditReview from "./pages/EditReview";
+import HomePage from './pages/HomePage';
+import EventDetailsPage from './pages/EventDetailsPage';
+import CreateReview from './pages/CreateReview';
+import EditReview from './pages/EditReview';
 
-import AboutPage from "./pages/AboutPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import AboutPage from './pages/AboutPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-import AdminDashboardPage from "./pages/AdminDashboardPage";
-import AdminEventsListPage from "./pages/AdminEventListPage";
-import AdminCreateEventPage from "./pages/AdminCreateEventPage";
-import AdminUpdateEventPage from "./pages/AdminUpdateEventPage";
-import AdminRatingsListPage from "./pages/AdminRatingsListPage";
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import AdminEventsListPage from './pages/AdminEventListPage';
+import AdminCreateEventPage from './pages/AdminCreateEventPage';
+import AdminUpdateEventPage from './pages/AdminUpdateEventPage';
+import AdminRatingsListPage from './pages/AdminRatingsListPage';
 
 function App() {
   return (
@@ -27,19 +27,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/event/:id" element={<EventDetailsPage />} />
           <Route path="/event/create-review/:id" element={<CreateReview />} />
-          <Route path="/event/edit-review/:id" element={<EditReview />} />
+          <Route path="/event/edit-review/:id/:reviewId" element={<EditReview />} />
           <Route path="/about" element={<AboutPage />} />
 
           <Route path="/admin" element={<AdminDashboardPage />} />
           <Route path="/admin/events" element={<AdminEventsListPage />} />
-          <Route
-            path="/admin/events/create"
-            element={<AdminCreateEventPage />}
-          />
-          <Route
-            path="/admin/event/:id/update"
-            element={<AdminUpdateEventPage />}
-          />
+          <Route path="/admin/events/create" element={<AdminCreateEventPage />} />
+          <Route path="/admin/event/:id/update" element={<AdminUpdateEventPage />} />
           <Route path="/admin/ratings" element={<AdminRatingsListPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
