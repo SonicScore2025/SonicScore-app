@@ -29,6 +29,7 @@ const HomePage = () => {
   const totalRating = (ratingsObj) => {
     if (ratingsObj) {
       const sum = Object.keys(ratingsObj).reduce((acc, val) => {
+        console.log(ratingsObj[val]);
         return acc + ratingsObj[val];
       }, 0);
       return parseFloat((sum / Object.keys(ratingsObj).length).toFixed(1));

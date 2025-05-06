@@ -36,6 +36,28 @@ const EventDetailsPage = () => {
     }
   };
 
+  const calcRating = (reviewsObj) => {
+    if (reviewsObj) {
+      const reviewValues = Object.values(reviewsObj);
+      if (reviewValues.length === 0) return [0, 0, 0, 0, 0, 0, 0];
+
+      const numRatings = Object.keys(reviewValues[0].ratings).length;
+      const ratingsArr = Array(numRatings).fill(0);
+      let counter = 0;
+
+      reviewValues.forEach((review) => {
+        counter++;
+        Object.values(review.ratings).forEach((valueRatings, i) => {
+          ratingsArr[i] += +valueRatings;
+        });
+      });
+
+      return ratingsArr.map((sum) => (sum / counter).toFixed(1));
+    } else {
+      return [0, 0, 0, 0, 0, 0, 0];
+    }
+  };
+
   const deleteHandler = (reviewId) => {
     axios
       .delete(`${API_URL}/events/${id}/reviews/${reviewId}.json`)
@@ -74,7 +96,8 @@ const EventDetailsPage = () => {
           {Object.keys(event.ratings).map((rating, i) => {
             return (
               <li key={i}>
-                {translateKeys(rating)}: {event.ratings[rating]}
+                {translateKeys(rating)}: {calcRating(event.reviews)[i]}
+                {/* {translateKeys(rating)}: {event.ratings[rating]} */}
               </li>
             );
           })}
@@ -84,7 +107,6 @@ const EventDetailsPage = () => {
       {event.resources && (
         <div className="resources">
           {event.resources.map((resource, i) => {
-            console.log(event.resources);
             return (
               <div key={i}>
                 <p>{resource.sourceTitle}</p>
