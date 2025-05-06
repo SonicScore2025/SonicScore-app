@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../config/api";
+import { TrashSimple } from "@phosphor-icons/react";
 
 const AdminRatingsListPage = () => {
   const [reviews, setReviews] = useState(null);
@@ -69,15 +70,12 @@ const AdminRatingsListPage = () => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-center">
-          All Reviews List ()
-        </h1>
-        <Link to={"/admin"}>Back to Admin</Link>
+    <div id="reviewsListPage">
+      <div className="admin-header">
+        <h1>All Reviews List ({reviews.length})</h1>
       </div>
 
-      <div>
+      <div className="py-5">
         <table>
           <thead>
             <tr>
@@ -97,12 +95,12 @@ const AdminRatingsListPage = () => {
                 <td>{calcAverageRatings(review.ratings)}</td>
                 <td>
                   <button
-                    className="hover:text-red-500 cursor-pointer"
+                    className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
                     onClick={() =>
                       deleteReview(review.eventId, review.firebaseReviewId)
                     }
                   >
-                    Delete
+                    <TrashSimple size={22} weight="duotone" />
                   </button>
                 </td>
               </tr>

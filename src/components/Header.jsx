@@ -2,20 +2,24 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="Header py-6 flex items-center justify-between border-b">
-      <h1 className="text-3xl font-extrabold uppercase">Sonic Score</h1>
+    <div className="Header py-5 border-b border-gray-100 shadow shadow-gray-100">
+      <div className="container max-w-6xl mx-auto flex items-center justify-between">
+        <h1 className="text-3xl font-black uppercase text-purple-800">
+          Sonic Score
+        </h1>
 
-      <ul className="flex gap-6">
-        <li>
-          <NavLink to="/">Events</NavLink>
-        </li>
-        <li>
-          <NavLink to="/about">About</NavLink>
-        </li>
-        <li>
-          <NavLink to="/admin">Admin</NavLink>
-        </li>
-      </ul>
+        <ul className="flex gap-10">
+          <li>
+            <NavLink to="/">Events</NavLink>
+          </li>
+          <li>
+            <NavLink to="/about">About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/admin/events">Admin</NavLink>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

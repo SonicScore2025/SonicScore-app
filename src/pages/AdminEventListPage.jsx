@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
 import { Link } from "react-router-dom";
 import "../assets/css/table.css";
+import { PencilSimple, Trash, TrashSimple } from "@phosphor-icons/react";
 
 const AdminEventsListPage = () => {
   const [events, setEvents] = useState(null);
@@ -26,9 +27,10 @@ const AdminEventsListPage = () => {
   const averageRating = (ratingsObj) => {
     if (!ratingsObj || typeof ratingsObj !== "object") return 0;
 
-    const values = Object.values(ratingsObj).filter(
-      (val) => typeof val === "number"
-    );
+    const values = Object.values(ratingsObj)
+      .map((val) => Number(val))
+      .filter((val) => !isNaN(val));
+
     if (values.length === 0) return 0;
 
     const sum = values.reduce((acc, val) => acc + val, 0);
@@ -55,18 +57,15 @@ const AdminEventsListPage = () => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-center">
-          All Events List ({events.length})
-        </h1>
-        <div className="flex gap-8">
-          <Link to={"/admin/events/create"}>Add New Event</Link>
-          <Link to={"/admin/"}>Back to Admin</Link>
-        </div>
+    <div id="eventListPage">
+      <div className="admin-header">
+        <h1>All Events List ({events.length})</h1>
+        <Link className="btn btn-primary" to={"/admin/events/create"}>
+          Add New Event
+        </Link>
       </div>
 
-      <div>
+      <div className="my-5">
         <table>
           <thead>
             <tr>
@@ -89,20 +88,20 @@ const AdminEventsListPage = () => {
                   {!event.reviews ? 0 : Object.keys(event.reviews).length}
                 </td>
                 <td>{averageRating(event.ratings)}</td>
-                <td>
+                <td className="text-center">
                   <Link
-                    className="hover:text-yellow-500"
+                    className="flex items-center justify-center text-gray-400 hover:text-green-600"
                     to={`/admin/event/${event.id}/update`}
                   >
-                    Update
+                    <PencilSimple size={22} weight="duotone" />
                   </Link>
                 </td>
                 <td>
                   <button
-                    className="hover:text-red-500 cursor-pointer"
+                    className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
                     onClick={() => deleteEvent(event.id)}
                   >
-                    Delete
+                    <TrashSimple size={22} weight="duotone" />
                   </button>
                 </td>
               </tr>
