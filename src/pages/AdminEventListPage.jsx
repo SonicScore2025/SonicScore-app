@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "../config/api";
-import "../assets/css/table.css";
 import { Link } from "react-router-dom";
+import "../assets/css/table.css";
 
 const AdminEventsListPage = () => {
   const [events, setEvents] = useState(null);

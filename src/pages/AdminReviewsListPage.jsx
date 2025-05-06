@@ -8,19 +8,65 @@ const AdminRatingsListPage = () => {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/events/reviews.json`)
+      .get(`${API_URL}/events.json`)
       .then((response) => {
-        const reviewsArr = Object.keys(response.data).map((id) => ({
-          id,
-          ...response.data[id],
-        }));
-        setReviews(reviewsArr);
-        console.log(reviewsArr);
+        const eventsData = response.data;
+        const allReviews = [];
+
+        // Get reviews of an Event
+        for (const eventId in eventsData) {
+          const event = eventsData[eventId];
+          const eventReviews = event.reviews;
+
+          if (eventReviews) {
+            const reviewsWithEventName = Object.entries(eventReviews).map(
+              ([firebaseReviewId, review]) => ({
+                ...review,
+                eventId: eventId,
+                eventName: event.name,
+                firebaseReviewId: firebaseReviewId,
+              })
+            );
+            allReviews.push(...reviewsWithEventName);
+          }
+        }
+        setReviews(allReviews);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  // Calculate Average Ratings of an Event
+  const calcAverageRatings = (ratingsObj) => {
+    if (!ratingsObj) return 0;
+
+    const average = (
+      Object.values(ratingsObj)
+        .map((value) => Number(value))
+        .reduce((acc, value) => acc + value, 0) /
+      Object.values(ratingsObj).length
+    ).toFixed(1);
+
+    return average;
+  };
+
+  //Delete A Reveiew
+  const deleteReview = (eventId, firebaseReviewId) => {
+    axios
+      .delete(`${API_URL}/events/${eventId}/reviews/${firebaseReviewId}.json`)
+      .then(() => {
+        setReviews((prev) =>
+          prev.filter((review) => review.firebaseReviewId !== firebaseReviewId)
+        );
+        console.log("Review Deleted!");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  if (!reviews) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -35,43 +81,32 @@ const AdminRatingsListPage = () => {
         <table>
           <thead>
             <tr>
-              <th>Events Name</th>
-              <th>Country</th>
-              <th>City</th>
-              <th>Reviews</th>
+              <th>Date</th>
+              <th>Event</th>
+              <th>Text</th>
               <th>Ratings</th>
-              <th>Update</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {/* {events.map((event) => (
-              <tr className="card" key={event.id}>
-                <td>{event.name}</td>
-                <td>{event.location.country}</td>
-                <td>{event.location.city}</td>
-                <td>
-                  {!event.reviews ? 0 : Object.keys(event.reviews).length}
-                </td>
-                <td>{averageRating(event.ratings)}</td>
-                <td>
-                  <Link
-                    className="hover:text-yellow-500"
-                    to={`/admin/event/${event.id}/update`}
-                  >
-                    Update
-                  </Link>
-                </td>
+            {reviews.map((review) => (
+              <tr className="card" key={review.firebaseReviewId}>
+                <td>{review.date}</td>
+                <td>{review.eventName}</td>
+                <td>{review.reviewText}</td>
+                <td>{calcAverageRatings(review.ratings)}</td>
                 <td>
                   <button
                     className="hover:text-red-500 cursor-pointer"
-                    onClick={() => deleteEvent(event.id)}
+                    onClick={() =>
+                      deleteReview(review.eventId, review.firebaseReviewId)
+                    }
                   >
                     Delete
                   </button>
                 </td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
       </div>
