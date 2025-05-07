@@ -6,7 +6,7 @@ import { CalendarHeart } from '@phosphor-icons/react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const HomePage = () => {
+const HomePage = (props) => {
   const [events, setEvents] = useState(null);
 
   useEffect(() => {
@@ -27,16 +27,6 @@ const HomePage = () => {
   if (!events) {
     return <p>Loading...</p>;
   }
-
-  const totalRating = (ratingsObj) => {
-    if (ratingsObj) {
-      const sum = Object.keys(ratingsObj).reduce((acc, val) => {
-        console.log(ratingsObj[val]);
-        return acc + ratingsObj[val];
-      }, 0);
-      return parseFloat((sum / Object.keys(ratingsObj).length).toFixed(1));
-    }
-  };
 
   return (
     <div>
@@ -61,7 +51,7 @@ const HomePage = () => {
                   <strong>Capacity:</strong> {event.capacity}
                 </p>
                 <p className="">
-                  <strong>Rating:</strong> {totalRating(event.ratings)}
+                  <strong>Rating:</strong> {props.totalRating(event.ratings)}
                 </p>
               </div>
               <Link to={`/event/${event.id}`}>

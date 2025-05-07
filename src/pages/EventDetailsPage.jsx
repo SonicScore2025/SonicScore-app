@@ -7,7 +7,7 @@ import CreateReview from '../components/CreateReview';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const EventDetailsPage = () => {
+const EventDetailsPage = (props) => {
   const [event, setEvent] = useState(null);
   const { id } = useParams();
 
@@ -41,24 +41,43 @@ const EventDetailsPage = () => {
   };
 
   const calcRating = (reviewsObj) => {
+    const sendData = (arr) => {
+      const sendRating = {
+        atmosphere: arr[0],
+        facilities: arr[1],
+        musicQuality: arr[2],
+        organization: arr[3],
+        overallExperience: arr[4],
+        safety: arr[5],
+        valueForMoney: arr[6],
+      };
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, sendRating)
+        .then((response) => {
+          console.log('update ratings successful');
+        })
+        .catch((err) => console.log(err));
+    };
+    let ratingsArr;
     if (reviewsObj) {
       const reviewValues = Object.values(reviewsObj);
-      if (reviewValues.length === 0) return [0, 0, 0, 0, 0, 0, 0];
-
+      if (reviewValues.length === 0) {
+        ratingsArr = [0, 0, 0, 0, 0, 0, 0];
+        return ratingsArr;
+      }
       const numRatings = Object.keys(reviewValues[0].ratings).length;
-      const ratingsArr = Array(numRatings).fill(0);
+      const ratingsSumArr = Array(numRatings).fill(0);
       let counter = 0;
 
       reviewValues.forEach((review) => {
         counter++;
         Object.values(review.ratings).forEach((valueRatings, i) => {
-          ratingsArr[i] += +valueRatings;
+          ratingsSumArr[i] += +valueRatings;
         });
       });
-
-      return ratingsArr.map((sum) => (sum / counter).toFixed(1));
-    } else {
-      return [0, 0, 0, 0, 0, 0, 0];
+      ratingsArr = ratingsSumArr.map((sum) => (sum / counter).toFixed(1));
+      sendData(ratingsArr);
+      return ratingsArr;
     }
   };
 
@@ -83,7 +102,6 @@ const EventDetailsPage = () => {
   }
 
   const reviewsObj = event.reviews;
-
   return (
     <div className="eventDetailsPage">
       <div className="eventDetails mb-10 flex flex-col">
@@ -100,7 +118,7 @@ const EventDetailsPage = () => {
             <h1 className="text-3xl font-bold mb-1 text-purple-800 flex gap-2">
               {event.name}
               <span className="flex items-center gap-1">
-                (<Star size={24} weight="duotone" /> 4.75)
+                (<Star size={24} weight="duotone" /> {props.totalRating(event.ratings)})
               </span>
             </h1>
             <p className="text-2xl font-semibold">
@@ -125,8 +143,7 @@ const EventDetailsPage = () => {
                 return (
                   <li key={i} className="flex items-center justify-between">
                     <strong>{translateKeys(rating)}: </strong>
-                    <span className="text-xl font-bold">{calcRating(event.reviews)[i]}</span>
-                    {/* {translateKeys(rating)}: {event.ratings[rating]} */}
+                    <span className="text-xl font-bold">{event.reviews ? calcRating(event.reviews)[i] : 0}</span>
                   </li>
                 );
               })}
@@ -170,8 +187,6 @@ const EventDetailsPage = () => {
         {reviewsObj && (
           <div className="reviews flex flex-col gap-4" key={reviewsObj.reviewId}>
             {Object.entries(reviewsObj).map(([key, value], i) => {
-              console.log(key);
-              console.log(value);
               return (
                 <ReviewsCard
                   eventId={id}

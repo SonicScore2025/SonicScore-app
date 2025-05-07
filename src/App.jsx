@@ -16,14 +16,23 @@ import AdminReviewsListPage from './pages/AdminReviewsListPage';
 import AdminEventsListPage from './pages/AdminEventListPage';
 
 function App() {
+  const totalRating = (ratingsObj) => {
+    if (ratingsObj) {
+      const sum = Object.keys(ratingsObj).reduce((acc, val) => {
+        return acc + parseFloat(ratingsObj[val]);
+      }, 0);
+      return (sum / Object.keys(ratingsObj).length).toFixed(1);
+    }
+  };
+
   return (
     <>
       <Header />
 
       <main className="py-5 px-4 md:px-0 container max-w-5xl mx-auto">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/event/:id" element={<EventDetailsPage />} />
+          <Route path="/" element={<HomePage totalRating={totalRating} />} />
+          <Route path="/event/:id" element={<EventDetailsPage totalRating={totalRating} />} />
           <Route path="/about" element={<AboutPage />} />
 
           <Route path="/admin/events" element={<AdminDashboardPage />}>
