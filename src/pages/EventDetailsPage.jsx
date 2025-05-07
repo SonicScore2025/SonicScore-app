@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { API_URL } from "../config/api";
-import { GlobeSimple, Star } from "@phosphor-icons/react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { API_URL } from '../config/api';
+import { GlobeSimple, Star } from '@phosphor-icons/react';
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);
@@ -20,20 +20,20 @@ const EventDetailsPage = () => {
   }, []);
 
   const translateKeys = (key) => {
-    if (key === "atmosphere") {
-      return "Atmosphere";
-    } else if (key === "facilities") {
-      return "Facilities";
-    } else if (key === "musicQuality") {
-      return "Music Quality";
-    } else if (key === "organization") {
-      return "Organization";
-    } else if (key === "safety") {
-      return "Safety";
-    } else if (key === "valueForMoney") {
-      return "Value for Money";
-    } else if (key === "overallExperience") {
-      return "Overall Experience";
+    if (key === 'atmosphere') {
+      return 'Atmosphere';
+    } else if (key === 'facilities') {
+      return 'Facilities';
+    } else if (key === 'musicQuality') {
+      return 'Music Quality';
+    } else if (key === 'organization') {
+      return 'Organization';
+    } else if (key === 'safety') {
+      return 'Safety';
+    } else if (key === 'valueForMoney') {
+      return 'Value for Money';
+    } else if (key === 'overallExperience') {
+      return 'Overall Experience';
     }
   };
 
@@ -88,15 +88,11 @@ const EventDetailsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4">
           <div className="col-span-2 md:row-span-2">
-            <h1 className="text-3xl font-bold mb-4 text-purple-800">
-              {event.name}
-            </h1>
+            <h1 className="text-3xl font-bold mb-4 text-purple-800">{event.name}</h1>
             <p className="text-2xl font-semibold mb-2">
               {event.location.city}, {event.location.country}
             </p>
-            <p className="text-xl font-semibold mb-3">
-              Capacity: {event.capacity}
-            </p>
+            <p className="text-xl font-semibold mb-3">Capacity: {event.capacity}</p>
             <Link
               to={event.website}
               target="_blank"
@@ -105,7 +101,7 @@ const EventDetailsPage = () => {
               <GlobeSimple size={24} weight="duotone" /> Official Website
             </Link>
           </div>
-
+        </div>
         <div className="ratings border-2 p-5 my-4 rounded-xl bg-purple-50 border-purple-200">
           <p className="flex items-center justify-between gap-2 text-xl font-bold mb-2 text-purple-800">
             Festival Rating <Star size={24} weight="duotone" />
@@ -154,11 +150,6 @@ const EventDetailsPage = () => {
       </div>
 
       <div className="reviewsSection border-t-2 border-gray-100 pt-5">
-        <Link to={`/event/create-review/${id}`}>
-          <button className="btn btn-primary w-full md:w-auto mb-5">
-            Add Review
-          </button>
-        </Link>
         {event.reviews && (
           <div className="reviews flex flex-col gap-4" key={event.reviews.reviewId}>
             {Object.entries(event.reviews).map(([key, value], i) => {
