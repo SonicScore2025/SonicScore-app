@@ -87,5 +87,5 @@ form.small-form .form-control {
 }
 
 form.small-form .form-control input {
-  @apply w-12 text-center !py-1.5
+  @apply w-16 text-center !py-1.5
 }

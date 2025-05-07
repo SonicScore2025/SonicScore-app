@@ -7,7 +7,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 function EditReview(props) {
   const { id } = useParams();
-  //const { reviewId } = useParams();
   const [atmosphere, setAtmosphere] = useState(0);
   const [facilities, setFacilities] = useState(0);
   const [musicQuality, setmMsicQuality] = useState(0);
@@ -178,7 +177,6 @@ function EditReview(props) {
             className="w-25"
           />
         </div>
-        {/* <label htmlFor="reviewText">Review Text:</label> */}
         <textarea
           id="reviewText"
           type="text"

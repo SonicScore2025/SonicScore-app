@@ -17,11 +17,13 @@ import AdminEventsListPage from './pages/AdminEventListPage';
 
 function App() {
   const totalRating = (ratingsObj) => {
-    if (ratingsObj) {
+    if (ratingsObj !== 'undefined') {
       const sum = Object.keys(ratingsObj).reduce((acc, val) => {
         return acc + parseFloat(ratingsObj[val]);
       }, 0);
       return (sum / Object.keys(ratingsObj).length).toFixed(1);
+    } else {
+      return '0.0';
     }
   };
 

@@ -59,10 +59,12 @@ const EventDetailsPage = (props) => {
         .catch((err) => console.log(err));
     };
     let ratingsArr;
-    if (reviewsObj) {
+    if (typeof reviewsObj !== 'undefined') {
       const reviewValues = Object.values(reviewsObj);
+      console.log(reviewValues);
       if (reviewValues.length === 0) {
         ratingsArr = [0, 0, 0, 0, 0, 0, 0];
+        sendData(ratingsArr);
         return ratingsArr;
       }
       const numRatings = Object.keys(reviewValues[0].ratings).length;
@@ -76,6 +78,10 @@ const EventDetailsPage = (props) => {
         });
       });
       ratingsArr = ratingsSumArr.map((sum) => (sum / counter).toFixed(1));
+      sendData(ratingsArr);
+      return ratingsArr;
+    } else {
+      ratingsArr = [0, 0, 0, 0, 0, 0, 0];
       sendData(ratingsArr);
       return ratingsArr;
     }
@@ -182,9 +188,9 @@ const EventDetailsPage = (props) => {
 
       <div className="reviewsSection border-t-2 border-gray-100 pt-5">
         <div id="createReview" className="hidden">
-          <CreateReview />
+          <CreateReview setEvent={setEvent} />
         </div>
-        {reviewsObj && (
+        {reviewsObj ? (
           <div className="reviews flex flex-col gap-4" key={reviewsObj.reviewId}>
             {Object.entries(reviewsObj).map(([key, value], i) => {
               return (
@@ -198,6 +204,10 @@ const EventDetailsPage = (props) => {
                 />
               );
             })}
+          </div>
+        ) : (
+          <div className="text-center font-medium text-lg">
+            <p>Event not scored yet</p>
           </div>
         )}
       </div>

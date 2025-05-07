@@ -55,5 +55,4 @@ function ReviewsCard(props) {
     </div>
   );
 }
-
 export default ReviewsCard;
