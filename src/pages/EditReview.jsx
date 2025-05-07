@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_URL } from '../config/api';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function EditReview() {
   const { id } = useParams();

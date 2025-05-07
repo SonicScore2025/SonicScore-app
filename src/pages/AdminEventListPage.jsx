@@ -1,9 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { API_URL } from "../config/api";
-import { Link } from "react-router-dom";
-import "../assets/css/table.css";
-import { PencilSimple, Trash, TrashSimple } from "@phosphor-icons/react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../assets/css/table.css';
+import { PencilSimple, Trash, TrashSimple } from '@phosphor-icons/react';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AdminEventsListPage = () => {
   const [events, setEvents] = useState(null);
@@ -25,7 +26,7 @@ const AdminEventsListPage = () => {
 
   // Calculate Average Rating
   const averageRating = (ratingsObj) => {
-    if (!ratingsObj || typeof ratingsObj !== "object") return 0;
+    if (!ratingsObj || typeof ratingsObj !== 'object') return 0;
 
     const values = Object.values(ratingsObj)
       .map((val) => Number(val))
@@ -42,7 +43,7 @@ const AdminEventsListPage = () => {
     return axios
       .delete(`${API_URL}/events/${id}.json`)
       .then(() => {
-        console.log("Event Deleted");
+        console.log('Event Deleted');
         setEvents(events.filter((event) => event.id !== id));
         return true;
       })
@@ -82,9 +83,7 @@ const AdminEventsListPage = () => {
                   <td>{event.name}</td>
                   <td>{event.location.country}</td>
                   <td>{event.location.city}</td>
-                  <td>
-                    {!event.reviews ? 0 : Object.keys(event.reviews).length}
-                  </td>
+                  <td>{!event.reviews ? 0 : Object.keys(event.reviews).length}</td>
                   <td>{averageRating(event.ratings)}</td>
                   <td className="text-center">
                     <Link
@@ -108,7 +107,7 @@ const AdminEventsListPage = () => {
           </table>
         </div>
         <div className="mt-10 text-center">
-          <Link className="btn btn-primary" to={"/admin/events/create"}>
+          <Link className="btn btn-primary" to={'/admin/events/create'}>
             Add New Event
           </Link>
         </div>

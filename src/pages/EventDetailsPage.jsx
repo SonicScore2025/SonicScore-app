@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { API_URL } from '../config/api';
 import { GlobeSimple, Star } from '@phosphor-icons/react';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const EventDetailsPage = () => {
   const [event, setEvent] = useState(null);

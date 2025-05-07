@@ -1,23 +1,24 @@
-import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../config/api";
+import axios from 'axios';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CreateEventPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    imageSource: "",
-    capacity: "",
-    country: "",
-    city: "",
-    website: "",
+    name: '',
+    description: '',
+    imageSource: '',
+    capacity: '',
+    country: '',
+    city: '',
+    website: '',
     resources: [
-      { sourceTitle: "", sourceURL: "" },
-      { sourceTitle: "", sourceURL: "" },
-      { sourceTitle: "", sourceURL: "" },
+      { sourceTitle: '', sourceURL: '' },
+      { sourceTitle: '', sourceURL: '' },
+      { sourceTitle: '', sourceURL: '' },
     ],
   });
 
@@ -41,7 +42,7 @@ const CreateEventPage = () => {
     return axios
       .post(`${API_URL}/events.json`, newEvent)
       .then((response) => {
-        console.log("Event Created:", response.data);
+        console.log('Event Created:', response.data);
         return true;
       })
       .catch((err) => {
@@ -56,8 +57,7 @@ const CreateEventPage = () => {
     const { country, city, resources, ...rest } = formData;
 
     const filledResources = resources.filter(
-      (resource) =>
-        resource.sourceTitle.trim() !== "" && resource.sourceURL.trim() !== ""
+      (resource) => resource.sourceTitle.trim() !== '' && resource.sourceURL.trim() !== ''
     );
 
     const newEvent = {
@@ -81,20 +81,20 @@ const CreateEventPage = () => {
     checkDuplicateEvent(newEvent.name)
       .then((isDuplicate) => {
         if (isDuplicate) {
-          alert("An event with this name already exists!");
+          alert('An event with this name already exists!');
         } else {
           createEvent(newEvent).then((success) => {
             if (success) {
-              navigate("/admin/events");
+              navigate('/admin/events');
             } else {
-              alert("Failed to create event. Please try again.");
+              alert('Failed to create event. Please try again.');
             }
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Something went wrong. Please try again.");
+        alert('Something went wrong. Please try again.');
       });
   };
 
@@ -129,9 +129,7 @@ const CreateEventPage = () => {
           <label className="label">Event Description</label>
           <textarea
             value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             required
             className="textarea textarea-bordered"
           />
@@ -142,9 +140,7 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.imageSource}
-            onChange={(e) =>
-              setFormData({ ...formData, imageSource: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, imageSource: e.target.value })}
             required
             className="input input-bordered"
           />
@@ -155,9 +151,7 @@ const CreateEventPage = () => {
           <input
             type="number"
             value={formData.capacity}
-            onChange={(e) =>
-              setFormData({ ...formData, capacity: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
             className="input input-bordered"
           />
         </div>
@@ -167,9 +161,7 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.country}
-            onChange={(e) =>
-              setFormData({ ...formData, country: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
             required
             className="input input-bordered"
           />
@@ -191,9 +183,7 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.website}
-            onChange={(e) =>
-              setFormData({ ...formData, website: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
             className="input input-bordered"
           />
         </div>
@@ -207,18 +197,14 @@ const CreateEventPage = () => {
               type="text"
               placeholder="Title"
               value={formData.resources[0].sourceTitle}
-              onChange={(e) =>
-                handleResourceChange(0, "sourceTitle", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(0, 'sourceTitle', e.target.value)}
             />
             <input
               className="w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[0].sourceURL}
-              onChange={(e) =>
-                handleResourceChange(0, "sourceURL", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(0, 'sourceURL', e.target.value)}
             />
           </div>
         </div>
@@ -231,18 +217,14 @@ const CreateEventPage = () => {
               type="text"
               placeholder="Title"
               value={formData.resources[1].sourceTitle}
-              onChange={(e) =>
-                handleResourceChange(1, "sourceTitle", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(1, 'sourceTitle', e.target.value)}
             />
             <input
               className="w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[1].sourceURL}
-              onChange={(e) =>
-                handleResourceChange(1, "sourceURL", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(1, 'sourceURL', e.target.value)}
             />
           </div>
         </div>
@@ -255,18 +237,14 @@ const CreateEventPage = () => {
               type="text"
               placeholder="Title"
               value={formData.resources[2].sourceTitle}
-              onChange={(e) =>
-                handleResourceChange(2, "sourceTitle", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(2, 'sourceTitle', e.target.value)}
             />
             <input
               className="w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[2].sourceURL}
-              onChange={(e) =>
-                handleResourceChange(2, "sourceURL", e.target.value)
-              }
+              onChange={(e) => handleResourceChange(2, 'sourceURL', e.target.value)}
             />
           </div>
         </div>

@@ -2,7 +2,8 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_URL } from '../config/api';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CreateReview() {
   const { id } = useParams();
