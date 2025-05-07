@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="Header py-5 border-b border-gray-100 shadow shadow-gray-100">
-      <div className="container max-w-6xl mx-auto flex items-center justify-between">
+    <div className="Header py-4 md:py-5 border-b border-gray-100 shadow shadow-gray-100">
+      <div className="container max-w-6xl mx-auto flex flex-col md:flex-row gap-3 items-center justify-between">
         <h1 className="text-3xl font-black uppercase text-purple-800">
           Sonic Score
         </h1>

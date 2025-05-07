@@ -60,54 +60,58 @@ const AdminEventsListPage = () => {
     <div id="eventListPage">
       <div className="admin-header">
         <h1>All Events List ({events.length})</h1>
-        <Link className="btn btn-primary" to={"/admin/events/create"}>
-          Add New Event
-        </Link>
       </div>
 
       <div className="my-5">
-        <table>
-          <thead>
-            <tr>
-              <th>Events Name</th>
-              <th>Country</th>
-              <th>City</th>
-              <th>Reviews</th>
-              <th>Ratings</th>
-              <th>Update</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((event) => (
-              <tr className="card" key={event.id}>
-                <td>{event.name}</td>
-                <td>{event.location.country}</td>
-                <td>{event.location.city}</td>
-                <td>
-                  {!event.reviews ? 0 : Object.keys(event.reviews).length}
-                </td>
-                <td>{averageRating(event.ratings)}</td>
-                <td className="text-center">
-                  <Link
-                    className="flex items-center justify-center text-gray-400 hover:text-green-600"
-                    to={`/admin/event/${event.id}/update`}
-                  >
-                    <PencilSimple size={22} weight="duotone" />
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
-                    onClick={() => deleteEvent(event.id)}
-                  >
-                    <TrashSimple size={22} weight="duotone" />
-                  </button>
-                </td>
+        <div className="w-full overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Events Name</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Reviews</th>
+                <th>Ratings</th>
+                <th>Update</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {events.map((event) => (
+                <tr className="card" key={event.id}>
+                  <td>{event.name}</td>
+                  <td>{event.location.country}</td>
+                  <td>{event.location.city}</td>
+                  <td>
+                    {!event.reviews ? 0 : Object.keys(event.reviews).length}
+                  </td>
+                  <td>{averageRating(event.ratings)}</td>
+                  <td className="text-center">
+                    <Link
+                      className="flex items-center justify-center text-gray-400 hover:text-green-600"
+                      to={`/admin/event/${event.id}/update`}
+                    >
+                      <PencilSimple size={22} weight="duotone" />
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
+                      onClick={() => deleteEvent(event.id)}
+                    >
+                      <TrashSimple size={22} weight="duotone" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-10 text-center">
+          <Link className="btn btn-primary" to={"/admin/events/create"}>
+            Add New Event
+          </Link>
+        </div>
       </div>
     </div>
   );

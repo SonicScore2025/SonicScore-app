@@ -76,37 +76,43 @@ const AdminRatingsListPage = () => {
       </div>
 
       <div className="py-5">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Event</th>
-              <th>Text</th>
-              <th>Ratings</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reviews.map((review) => (
-              <tr className="card" key={review.firebaseReviewId}>
-                <td>{review.date}</td>
-                <td>{review.eventName}</td>
-                <td>{review.reviewText}</td>
-                <td>{calcAverageRatings(review.ratings)}</td>
-                <td>
-                  <button
-                    className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
-                    onClick={() =>
-                      deleteReview(review.eventId, review.firebaseReviewId)
-                    }
-                  >
-                    <TrashSimple size={22} weight="duotone" />
-                  </button>
-                </td>
+        <div className="w-full overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>Text</th>
+                <th>Ratings</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {reviews.map((review) => (
+                <tr className="card" key={review.firebaseReviewId}>
+                  <td>{review.date}</td>
+                  <td>{review.eventName}</td>
+                  <td className="!whitespace-pre-wrap">
+                    {review.reviewText.length > 100
+                      ? review.reviewText.slice(0, 100) + "..."
+                      : review.reviewText}
+                  </td>
+                  <td>{calcAverageRatings(review.ratings)}</td>
+                  <td>
+                    <button
+                      className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
+                      onClick={() =>
+                        deleteReview(review.eventId, review.firebaseReviewId)
+                      }
+                    >
+                      <TrashSimple size={22} weight="duotone" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
