@@ -8,6 +8,7 @@ body {
   color: #333;
 }
 
+/* Header Section */
 .Header ul li {
   @apply text-lg font-semibold hover:text-purple-600;
 }
@@ -16,8 +17,9 @@ body {
   @apply text-purple-600;
 }
 
+/* Admin Page */
 #adminPage ul li a {
-  @apply flex h-14 items-center px-5 text-lg text-stone-400 rounded-xl md:rounded-tr-none md:rounded-br-none rounded-tl-xl rounded-bl-xl hover:bg-stone-50 hover:text-stone-500 hover:inset-shadow-sm hover:inset-shadow-stone-200 duration-300;
+  @apply flex gap-3 h-14 items-center px-4 text-stone-400 rounded-xl md:rounded-tr-none md:rounded-br-none rounded-tl-xl rounded-bl-xl hover:bg-stone-50 hover:text-stone-500 hover:inset-shadow-sm hover:inset-shadow-stone-200 duration-300;
 }
 
 #adminPage ul li a.active {
