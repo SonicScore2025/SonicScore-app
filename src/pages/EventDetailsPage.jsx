@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { GlobeSimple, Star } from '@phosphor-icons/react';
+import ReviewsCard from '../components/ReviewsCard';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -76,6 +77,8 @@ const EventDetailsPage = () => {
     return <p>Loading...</p>;
   }
 
+  const reviewsObj = event.reviews;
+
   return (
     <div className="eventDetailsPage">
       <div className="eventDetails mb-10">
@@ -136,7 +139,6 @@ const EventDetailsPage = () => {
           </div>
         )}
         <div className="mt-5">
-          {/* flex items-center justify-between */}
           <Link to={`/event/create-review/${id}`}>
             <button className="w-full  bg-transparent hover:bg-blue-800 text-blue-900 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded">
               Add Review
@@ -151,41 +153,19 @@ const EventDetailsPage = () => {
       </div>
 
       <div className="reviewsSection border-t-2 border-gray-100 pt-5">
-        {event.reviews && (
-          <div className="reviews flex flex-col gap-4" key={event.reviews.reviewId}>
-            {Object.entries(event.reviews).map(([key, value], i) => {
+        {reviewsObj && (
+          <div className="reviews flex flex-col gap-4" key={reviewsObj.reviewId}>
+            {Object.entries(reviewsObj).map(([key, value], i) => {
+              console.log(key);
+              console.log(value);
               return (
-                <div key={i} className="border-2 border-gray-200 p-8 rounded-xl">
-                  <p>{value.date}</p>
-                  <p>UserName placeholder</p>
-                  <div>
-                    <ul>
-                      {Object.entries(value.ratings).map(([key, value], i) => {
-                        return (
-                          <li key={i}>
-                            {translateKeys(key)}: {value}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                  <p>{value.reviewText}</p>
-                  <div className="review-buttons">
-                    <button
-                      onClick={() => {
-                        deleteHandler(key);
-                      }}
-                      className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                    >
-                      Delete Review
-                    </button>
-                    <Link to={`/event/edit-review/${id}/${key}`}>
-                      <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Edit Review
-                      </button>
-                    </Link>
-                  </div>
-                </div>
+                <ReviewsCard
+                  eventId={id}
+                  reviewId={key}
+                  reviewObj={value}
+                  deleteHandler={deleteHandler}
+                  translateKeys={translateKeys}
+                />
               );
             })}
           </div>
