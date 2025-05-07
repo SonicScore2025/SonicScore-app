@@ -129,7 +129,7 @@ const EventDetailsPage = () => {
         <div className="mt-5">
           {/* flex items-center justify-between */}
           <Link to={`/event/create-review/${id}`}>
-            <button className="w-full bg-transparent hover:bg-blue-800 text-blue-900 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded">
+            <button className="w-full  bg-transparent hover:bg-blue-800 text-blue-900 font-semibold hover:text-white py-2 px-4 border border-blue-800 hover:border-transparent rounded">
               Add Review
             </button>
           </Link>
