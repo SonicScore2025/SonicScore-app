@@ -22,9 +22,11 @@ table tbody tr:hover td {
 }
 
 /* Form Initial Style */
-form {
+form.admin {
   @apply bg-gray-100/75 px-10 py-8 rounded-xl flex flex-col gap-3;
 }
+
+
 
 form .form-control {
   @apply flex flex-col gap-1.5;
@@ -54,10 +56,36 @@ form textarea {
   @apply border-purple-700 hover:text-white hover:bg-purple-700 text-purple-900;
 }
 
+.btn-primary-fill {
+  @apply bg-purple-700 text-white hover:bg-purple-800/80 
+}
+
+.btn-blue {
+  @apply border-blue-900 hover:bg-blue-900 hover:text-white text-blue-900
+}
+
+.btn-blue-fill {
+  @apply  border-blue-900 bg-blue-900 text-white hover:bg-blue-950;
+}
+
 .btn-alert {
   @apply bg-yellow-500 text-white hover:bg-yellow-600/90;
 }
 
 .btn-danger {
-  @apply bg-red-500 text-white hover:bg-red-600/90;
+  @apply border-red-400 hover:text-white hover:bg-red-300 text-red-400;
+}
+
+.btn-cancel {
+  @apply border-gray-400 text-gray-500 hover:bg-gray-400 hover:text-white
+}
+
+
+/* Small Forms Style */
+form.small-form .form-control {
+  @apply flex items-center flex-row justify-between
+}
+
+form.small-form .form-control input {
+  @apply w-12 text-center !py-1.5
 }

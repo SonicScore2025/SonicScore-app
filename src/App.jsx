@@ -5,8 +5,6 @@ import Footer from './components/Footer';
 
 import HomePage from './pages/HomePage';
 import EventDetailsPage from './pages/EventDetailsPage';
-import CreateReview from './pages/CreateReview';
-import EditReview from './pages/EditReview';
 
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -22,12 +20,10 @@ function App() {
     <>
       <Header />
 
-      <main className="py-5 px-4 md:px-0 container max-w-6xl mx-auto">
+      <main className="py-5 px-4 md:px-0 container max-w-5xl mx-auto">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/event/:id" element={<EventDetailsPage />} />
-          <Route path="/event/create-review/:id" element={<CreateReview />} />
-          <Route path="/event/edit-review/:id/:reviewId" element={<EditReview />} />
           <Route path="/about" element={<AboutPage />} />
 
           <Route path="/admin/events" element={<AdminDashboardPage />}>

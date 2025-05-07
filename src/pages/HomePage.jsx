@@ -44,7 +44,7 @@ const HomePage = () => {
         <CalendarHeart weight="duotone" className="text-purple-700" size={38} /> Events List
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5">
         {events.map((event) => (
           <div
             className="card hover:shadow-lg shadow-purple-50 inset-shadow-sm inset-shadow-purple-100 bg-purple-50/50 hover:bg-purple-50 flex flex-col border-2 border-purple-100 rounded-xl inset"

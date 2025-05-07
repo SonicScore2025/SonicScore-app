@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-function EditReview() {
+function CreateReview() {
   const { id } = useParams();
-  const { reviewId } = useParams();
   const [atmosphere, setAtmosphere] = useState(0);
   const [facilities, setFacilities] = useState(0);
   const [musicQuality, setmMsicQuality] = useState(0);
@@ -16,24 +16,6 @@ function EditReview() {
   const [valueForMoney, setValueForMoney] = useState(0);
   const [reviewText, setReviewText] = useState('');
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/events/${id}/reviews/${reviewId}.json`)
-      .then((response) => {
-        setAtmosphere(response.data.ratings.atmosphere);
-        setFacilities(response.data.ratings.facilities);
-        setmMsicQuality(response.data.ratings.musicQuality);
-        setOrganization(response.data.ratings.organization);
-        setOverallExperience(response.data.ratings.overallExperience);
-        setSafety(response.data.ratings.safety);
-        setValueForMoney(response.data.ratings.valueForMoney);
-        setReviewText(response.data.reviewText);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,7 +24,7 @@ function EditReview() {
       return date.toJSON().slice(0, 10);
     };
 
-    const editReview = {
+    const newReview = {
       date: dateToday(),
       ratings: {
         atmosphere: atmosphere,
@@ -53,20 +35,24 @@ function EditReview() {
         safety: safety,
         valueForMoney: valueForMoney,
       },
+      reviewId: uuidv4(),
       reviewText: reviewText,
+      userID: uuidv4(),
     };
 
     axios
-      .patch(`${API_URL}/events/${id}/reviews/${reviewId}.json`, editReview)
+      .post(`${API_URL}/events/${id}/reviews.json`, newReview)
       .then((response) => {
-        navigate(`/event/${id}`);
+        document.getElementById('createReview').classList.add('hidden');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <div className="EditReviews">
-      <h1>Edit Review</h1>
+    <div>
+      <h1>Add review for project with id {id}</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="atmosphere">Atmosphere:</label>
         <input
@@ -174,10 +160,10 @@ function EditReview() {
           className="w-25"
         />
 
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">save review</button>
       </form>
     </div>
   );
 }
 
-export default EditReview;
+export default CreateReview;
