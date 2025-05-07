@@ -1,19 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from "react-router-dom";
 
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
-import HomePage from './pages/HomePage';
-import EventDetailsPage from './pages/EventDetailsPage';
+import HomePage from "./pages/HomePage";
+import EventDetailsPage from "./pages/EventDetailsPage";
 
-import AboutPage from './pages/AboutPage';
-import NotFoundPage from './pages/NotFoundPage';
+import AboutPage from "./pages/AboutPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-import AdminDashboardPage from './pages/AdminDashboardPage';
-import AdminCreateEventPage from './pages/AdminCreateEventPage';
-import AdminUpdateEventPage from './pages/AdminUpdateEventPage';
-import AdminReviewsListPage from './pages/AdminReviewsListPage';
-import AdminEventsListPage from './pages/AdminEventListPage';
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminCreateEventPage from "./pages/AdminCreateEventPage";
+import AdminUpdateEventPage from "./pages/AdminUpdateEventPage";
+import AdminReviewsListPage from "./pages/AdminReviewsListPage";
+import AdminEventsListPage from "./pages/AdminEventListPage";
 
 function App() {
   const totalRating = (ratingsObj) => {
@@ -34,7 +34,10 @@ function App() {
       <main className="py-5 px-4 md:px-0 container max-w-5xl mx-auto">
         <Routes>
           <Route path="/" element={<HomePage totalRating={totalRating} />} />
-          <Route path="/event/:id" element={<EventDetailsPage totalRating={totalRating} />} />
+          <Route
+            path="/event/:id"
+            element={<EventDetailsPage totalRating={totalRating} />}
+          />
           <Route path="/about" element={<AboutPage />} />
 
           <Route path="/admin/events" element={<AdminDashboardPage />}>
@@ -46,8 +49,12 @@ function App() {
           <Route path="/admin/events/create" element={<AdminDashboardPage />}>
             <Route index element={<AdminCreateEventPage />} />
           </Route>
-
-          <Route path="/admin/event/:id/update" element={<AdminUpdateEventPage />} />
+          <Route
+            path="/admin/event/:id/update"
+            element={<AdminDashboardPage />}
+          >
+            <Route index element={<AdminUpdateEventPage />} />
+          </Route>
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

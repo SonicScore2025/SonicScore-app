@@ -1,8 +1,9 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../assets/css/table.css';
-import { PencilSimple, Trash, TrashSimple } from '@phosphor-icons/react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../assets/css/table.css";
+import { PencilSimple, Trash, TrashSimple } from "@phosphor-icons/react";
+import Loading from "../components/Loading";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,7 +27,7 @@ const AdminEventsListPage = () => {
 
   // Calculate Average Rating
   const averageRating = (ratingsObj) => {
-    if (!ratingsObj || typeof ratingsObj !== 'object') return 0;
+    if (!ratingsObj || typeof ratingsObj !== "object") return 0;
 
     const values = Object.values(ratingsObj)
       .map((val) => Number(val))
@@ -43,7 +44,7 @@ const AdminEventsListPage = () => {
     return axios
       .delete(`${API_URL}/events/${id}.json`)
       .then(() => {
-        console.log('Event Deleted');
+        console.log("Event Deleted");
         setEvents(events.filter((event) => event.id !== id));
         return true;
       })
@@ -54,7 +55,7 @@ const AdminEventsListPage = () => {
   };
 
   if (!events) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
@@ -80,17 +81,27 @@ const AdminEventsListPage = () => {
             <tbody>
               {events.map((event) => (
                 <tr className="card" key={event.id}>
-                  <td>{event.name}</td>
+                  <td>
+                    <a
+                      href={`/event/${event.id}`}
+                      target="_blank"
+                      className="hover:underline hover:font-medium"
+                    >
+                      {event.name}
+                    </a>
+                  </td>
                   <td>{event.location.country}</td>
                   <td>{event.location.city}</td>
-                  <td>{!event.reviews ? 0 : Object.keys(event.reviews).length}</td>
+                  <td>
+                    {!event.reviews ? 0 : Object.keys(event.reviews).length}
+                  </td>
                   <td>{averageRating(event.ratings)}</td>
                   <td className="text-center">
                     <Link
                       className="flex items-center justify-center text-gray-400 hover:text-green-600"
                       to={`/admin/event/${event.id}/update`}
                     >
-                      <PencilSimple size={22} weight="duotone" />
+                      <PencilSimple size={18} weight="duotone" />
                     </Link>
                   </td>
                   <td>
@@ -98,7 +109,7 @@ const AdminEventsListPage = () => {
                       className="flex w-full items-center justify-center text-gray-400 hover:text-red-600 cursor-pointer"
                       onClick={() => deleteEvent(event.id)}
                     >
-                      <TrashSimple size={22} weight="duotone" />
+                      <TrashSimple size={18} weight="duotone" />
                     </button>
                   </td>
                 </tr>
@@ -107,7 +118,7 @@ const AdminEventsListPage = () => {
           </table>
         </div>
         <div className="mt-10 text-center">
-          <Link className="btn btn-primary" to={'/admin/events/create'}>
+          <Link className="btn btn-blue" to={"/admin/events/create"}>
             Add New Event
           </Link>
         </div>

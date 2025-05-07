@@ -11,13 +11,13 @@ const AdminDashboardPage = () => {
       <div className="w-full md:w-2/10">
         <ul className="flex flex-col gap-2">
           <li>
-            <NavLink to={"/admin/events"} className="gap-2">
+            <NavLink to={"/admin/events"}>
               <CalendarHeart size={24} weight="duotone" />
               List of Events
             </NavLink>
           </li>
           <li>
-            <NavLink to={"/admin/reviews"} className="gap-2">
+            <NavLink to={"/admin/reviews"}>
               <Star size={24} weight="duotone" />
               List of Reviews
             </NavLink>

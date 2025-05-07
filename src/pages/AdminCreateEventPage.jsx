@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,17 +8,17 @@ const CreateEventPage = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    imageSource: '',
-    capacity: '',
-    country: '',
-    city: '',
-    website: '',
+    name: "",
+    description: "",
+    imageSource: "",
+    capacity: "",
+    country: "",
+    city: "",
+    website: "",
     resources: [
-      { sourceTitle: '', sourceURL: '' },
-      { sourceTitle: '', sourceURL: '' },
-      { sourceTitle: '', sourceURL: '' },
+      { sourceTitle: "", sourceURL: "" },
+      { sourceTitle: "", sourceURL: "" },
+      { sourceTitle: "", sourceURL: "" },
     ],
   });
 
@@ -42,7 +42,7 @@ const CreateEventPage = () => {
     return axios
       .post(`${API_URL}/events.json`, newEvent)
       .then((response) => {
-        console.log('Event Created:', response.data);
+        console.log("Event Created:", response.data);
         return true;
       })
       .catch((err) => {
@@ -57,7 +57,8 @@ const CreateEventPage = () => {
     const { country, city, resources, ...rest } = formData;
 
     const filledResources = resources.filter(
-      (resource) => resource.sourceTitle.trim() !== '' && resource.sourceURL.trim() !== ''
+      (resource) =>
+        resource.sourceTitle.trim() !== "" && resource.sourceURL.trim() !== ""
     );
 
     const newEvent = {
@@ -81,20 +82,20 @@ const CreateEventPage = () => {
     checkDuplicateEvent(newEvent.name)
       .then((isDuplicate) => {
         if (isDuplicate) {
-          alert('An event with this name already exists!');
+          alert("An event with this name already exists!");
         } else {
           createEvent(newEvent).then((success) => {
             if (success) {
-              navigate('/admin/events');
+              navigate("/admin/events");
             } else {
-              alert('Failed to create event. Please try again.');
+              alert("Failed to create event. Please try again.");
             }
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        alert('Something went wrong. Please try again.');
+        alert("Something went wrong. Please try again.");
       });
   };
 
@@ -108,12 +109,9 @@ const CreateEventPage = () => {
     <div id="createEventPage">
       <div className="admin-header">
         <h1>Create New Event</h1>
-        <button className="btn-link cursor-pointer" onClick={() => navigate(-1)}>
-          Back to Events List
-        </button>
       </div>
 
-      <form className="w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
+      <form className="admin md:w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
         <div className="form-control">
           <label className="label">Event Name</label>
           <input
@@ -129,7 +127,10 @@ const CreateEventPage = () => {
           <label className="label">Event Description</label>
           <textarea
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            rows={5}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
             required
             className="textarea textarea-bordered"
           />
@@ -140,7 +141,9 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.imageSource}
-            onChange={(e) => setFormData({ ...formData, imageSource: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, imageSource: e.target.value })
+            }
             required
             className="input input-bordered"
           />
@@ -150,8 +153,11 @@ const CreateEventPage = () => {
           <label className="label">Capacity</label>
           <input
             type="number"
+            min={0}
             value={formData.capacity}
-            onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, capacity: e.target.value })
+            }
             className="input input-bordered"
           />
         </div>
@@ -161,7 +167,9 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.country}
-            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, country: e.target.value })
+            }
             required
             className="input input-bordered"
           />
@@ -183,7 +191,9 @@ const CreateEventPage = () => {
           <input
             type="text"
             value={formData.website}
-            onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, website: e.target.value })
+            }
             className="input input-bordered"
           />
         </div>
@@ -191,66 +201,81 @@ const CreateEventPage = () => {
         {/* Resource Inputs */}
         <div className="form-control">
           <label className="label">Resource 1</label>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <input
-              className="w-1/3 input input-bordered"
+              className="md:w-1/3 input input-bordered"
               type="text"
               placeholder="Title"
               value={formData.resources[0].sourceTitle}
-              onChange={(e) => handleResourceChange(0, 'sourceTitle', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(0, "sourceTitle", e.target.value)
+              }
             />
             <input
-              className="w-2/3 input input-bordered"
+              className="md:w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[0].sourceURL}
-              onChange={(e) => handleResourceChange(0, 'sourceURL', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(0, "sourceURL", e.target.value)
+              }
             />
           </div>
         </div>
 
         <div className="form-control">
           <label className="label">Resource 2</label>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <input
-              className="w-1/3 input input-bordered"
+              className="md:w-1/3 input input-bordered"
               type="text"
               placeholder="Title"
               value={formData.resources[1].sourceTitle}
-              onChange={(e) => handleResourceChange(1, 'sourceTitle', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(1, "sourceTitle", e.target.value)
+              }
             />
             <input
-              className="w-2/3 input input-bordered"
+              className="md:w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[1].sourceURL}
-              onChange={(e) => handleResourceChange(1, 'sourceURL', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(1, "sourceURL", e.target.value)
+              }
             />
           </div>
         </div>
 
         <div className="form-control">
           <label className="label">Resource 3</label>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <input
-              className="w-1/3 input input-bordered"
+              className="md:w-1/3 input input-bordered"
               type="text"
               placeholder="Title"
               value={formData.resources[2].sourceTitle}
-              onChange={(e) => handleResourceChange(2, 'sourceTitle', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(2, "sourceTitle", e.target.value)
+              }
             />
             <input
-              className="w-2/3 input input-bordered"
+              className="md:w-2/3 input input-bordered"
               type="text"
               placeholder="Link"
               value={formData.resources[2].sourceURL}
-              onChange={(e) => handleResourceChange(2, 'sourceURL', e.target.value)}
+              onChange={(e) =>
+                handleResourceChange(2, "sourceURL", e.target.value)
+              }
             />
           </div>
         </div>
 
-        <div className="text-center mt-6">
-          <button type="submit" className="btn btn-primary w-auto">
+        <div className="flex gap-3 justify-center mt-6">
+          <button className="btn btn-cancel" onClick={() => navigate(-1)}>
+            Back to List
+          </button>
+          <button type="submit" className="btn btn-primary-fill flex-1 md:flex-none">
             Create Event
           </button>
         </div>
