@@ -9,14 +9,12 @@ function DeleteReview(props) {
     axios
       .delete(`${API_URL}/events/${props.id}/reviews/${props.reviewId}.json`)
       .then((response) => {
-        console.log('delete successful');
         if (props.reload) {
           props.setReload(false);
         } else props.setReload(true);
         return axios.get(`${API_URL}/events/${props.id}.json`);
       })
       .then((response) => {
-        console.log('setEvent after delete');
         props.setEvent(response.data);
       })
       .catch((err) => console.log(err));

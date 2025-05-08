@@ -143,12 +143,10 @@ const EventDetailsPage = (props) => {
     if (event === null) return;
 
     const valuesArr = Object.values(event.ratings);
-    console.log('valuesArr', valuesArr);
     const sum = valuesArr.reduce((acc, val) => {
       return acc + parseFloat(val);
     }, 0);
     const averageRating = (sum / valuesArr.length).toFixed(1);
-    console.log('average rating: ', averageRating);
     axios
       .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
       .then((response) => console.log('average Rating updated'))

@@ -55,7 +55,7 @@ const HomePage = (props) => {
                 <p className="font-bold flex items-center justify-between gap-2 ">
                   <span className="flex items-center gap-2">
                     <Star size={22} weight="duotone" className="text-yellow-600" />
-                    {props.totalRating(event.ratings)} / 5
+                    {event.averageRating} / 5
                   </span>
                   <span className="flex items-center whitespace-pre">
                     <span className="flex items-center ">
