@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { TrashSimple } from "@phosphor-icons/react";
 import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -62,7 +63,7 @@ const AdminRatingsListPage = () => {
         setReviews((prev) =>
           prev.filter((review) => review.firebaseReviewId !== firebaseReviewId)
         );
-        console.log("Review Deleted!");
+        toast.success("Review Deleted!");
       })
       .catch((err) => console.log(err));
   };

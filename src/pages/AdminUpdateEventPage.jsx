@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -84,7 +85,8 @@ const UpdateEventPage = () => {
     return axios
       .patch(`${API_URL}/events/${id}.json`, updatedEvent)
       .then(() => {
-        console.log("Event Updated");
+        toast.success("Event Updated!");
+        navigate("/admin/events");
         return true;
       })
       .catch((err) => {
@@ -115,14 +117,14 @@ const UpdateEventPage = () => {
     checkDuplicateEvent(updatedEvent.name)
       .then((isDuplicate) => {
         if (isDuplicate) {
-          alert("An event with this name already exists!");
+          toast.error("An event with this name already exists!");
         } else {
           updateEvent(updatedEvent);
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       });
   };
 
@@ -134,7 +136,10 @@ const UpdateEventPage = () => {
         <h1>Update Event</h1>
       </div>
 
-      <form className="admin md:w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
+      <form
+        className="admin purple md:w-2/3 mx-auto my-5"
+        onSubmit={handleSubmit}
+      >
         <div className="form-control">
           <label className="label">Event Name</label>
           <input
