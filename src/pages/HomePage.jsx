@@ -6,7 +6,7 @@ import { CalendarHeart } from '@phosphor-icons/react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const HomePage = (props) => {
+const HomePage = () => {
   const [events, setEvents] = useState(null);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const HomePage = (props) => {
                   <strong>Capacity:</strong> {event.capacity}
                 </p>
                 <p className="">
-                  <strong>Rating:</strong> {props.totalRating(event.ratings)}
+                  <strong>Rating:</strong> {event.averageRating}
                 </p>
               </div>
               <Link to={`/event/${event.id}`}>

@@ -60,6 +60,9 @@ function EditReview(props) {
       .patch(`${API_URL}/events/${id}/reviews/${props.reviewId}.json`, editReview)
       .then((response) => {
         props.setEditStatus(false);
+        if (props.reload) {
+          props.setReload(false);
+        } else props.setReload(true);
         return axios.get(`${API_URL}/events/${id}.json`);
       })
       .then((response) => props.setEvent(response.data))

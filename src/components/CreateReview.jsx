@@ -47,7 +47,11 @@ function CreateReview(props) {
         document.getElementById('createReview').classList.add('hidden');
         return axios.get(`${API_URL}/events/${id}.json`);
       })
-      .then((response) => props.setEvent(response.data))
+      .then((response) => {
+        if (props.reload) {
+          props.setEvent(response.data), props.setReload(false);
+        } else props.setEvent(response.data), props.setReload(true);
+      })
       .catch((err) => {
         console.log(err);
       });

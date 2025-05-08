@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import EditReview from '../components/EditReview';
 import { Trash, UserCircle } from '@phosphor-icons/react';
+import DeleteReview from './DeleteReview';
 
 function ReviewsCard(props) {
   const [editStatus, setEditStatus] = useState(false);
@@ -8,7 +9,13 @@ function ReviewsCard(props) {
   return (
     <div className="mt-3 flex flex-col border-2 border-purple-200 rounded-2xl md:w-1/2 mx-auto">
       {editStatus ? (
-        <EditReview setEditStatus={setEditStatus} setEvent={props.setEvent} reviewId={props.reviewId} />
+        <EditReview
+          setEditStatus={setEditStatus}
+          setEvent={props.setEvent}
+          reload={props.reload}
+          setReload={props.setReload}
+          reviewId={props.reviewId}
+        />
       ) : (
         <>
           <div className="flex flex-col gap-6 justify-between p-6">
@@ -40,14 +47,13 @@ function ReviewsCard(props) {
                 Edit Review
               </button>
 
-              <button
-                onClick={() => {
-                  props.deleteHandler(props.reviewId);
-                }}
-                className=" text-gray-500 hover:text-red-500 cursor-pointer"
-              >
-                <Trash size={32} weight="duotone" />
-              </button>
+              <DeleteReview
+                setEvent={props.setEvent}
+                reload={props.reload}
+                setReload={props.setReload}
+                reviewId={props.reviewId}
+                id={props.id}
+              />
             </div>
           </div>
         </>

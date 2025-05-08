@@ -9,6 +9,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const EventDetailsPage = (props) => {
   const [event, setEvent] = useState(null);
+  const [reload, setReload] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const EventDetailsPage = (props) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [reload]);
 
   const translateKeys = (key) => {
     if (key === 'atmosphere') {
@@ -40,63 +41,119 @@ const EventDetailsPage = (props) => {
     }
   };
 
-  const calcRating = (reviewsObj) => {
-    const sendData = (arr) => {
-      const sendRating = {
-        atmosphere: arr[0],
-        facilities: arr[1],
-        musicQuality: arr[2],
-        organization: arr[3],
-        overallExperience: arr[4],
-        safety: arr[5],
-        valueForMoney: arr[6],
-      };
+  const calcRating = (revObj, categoryKey) => {
+    if (typeof revObj === 'undefined') {
+      return 0;
+    }
+    let sumKey = 0;
+    const revValuesArr = Object.values(revObj);
+    revValuesArr.map((data) => {
+      const reviewsRatingObj = data.ratings;
+      const entriesArr = Object.entries(reviewsRatingObj);
+      return entriesArr.map(([key, value]) => {
+        if (key === categoryKey) {
+          return (sumKey += parseInt(value));
+        }
+      });
+    });
+    const averageValue = (sumKey / revValuesArr.length).toFixed(1);
+
+    if (categoryKey === 'atmosphere') {
       axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, sendRating)
+        .patch(`${API_URL}/events/${id}/ratings.json`, { atmosphere: averageValue })
         .then((response) => {
-          console.log('update ratings successful');
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
         })
         .catch((err) => console.log(err));
-    };
-    let ratingsArr;
-    if (typeof reviewsObj !== 'undefined') {
-      const reviewValues = Object.values(reviewsObj);
-      console.log(reviewValues);
-      if (reviewValues.length === 0) {
-        ratingsArr = [0, 0, 0, 0, 0, 0, 0];
-        sendData(ratingsArr);
-        return ratingsArr;
-      }
-      const numRatings = Object.keys(reviewValues[0].ratings).length;
-      const ratingsSumArr = Array(numRatings).fill(0);
-      let counter = 0;
+    } else if (categoryKey === 'facilities') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { facilities: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
 
-      reviewValues.forEach((review) => {
-        counter++;
-        Object.values(review.ratings).forEach((valueRatings, i) => {
-          ratingsSumArr[i] += +valueRatings;
-        });
-      });
-      ratingsArr = ratingsSumArr.map((sum) => (sum / counter).toFixed(1));
-      sendData(ratingsArr);
-      return ratingsArr;
-    } else {
-      ratingsArr = [0, 0, 0, 0, 0, 0, 0];
-      sendData(ratingsArr);
-      return ratingsArr;
+        .catch((err) => console.log(err));
+    } else if (categoryKey === 'musicQuality') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { musicQuality: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
+
+        .catch((err) => console.log(err));
+    } else if (categoryKey === 'organization') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { organization: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
+
+        .catch((err) => console.log(err));
+    } else if (categoryKey === 'overallExperience') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { overallExperience: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
+
+        .catch((err) => console.log(err));
+    } else if (categoryKey === 'safety') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { safety: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
+
+        .catch((err) => console.log(err));
+    } else if (categoryKey === 'valueForMoney') {
+      axios
+        .patch(`${API_URL}/events/${id}/ratings.json`, { valueForMoney: averageValue })
+        .then((response) => {
+          if (props.reload) {
+            setReload(false);
+          } else setReload(true);
+          `${categoryKey} update successful`;
+        })
+
+        .catch((err) => console.log(err));
     }
+
+    return averageValue;
   };
 
-  const deleteHandler = (reviewId) => {
+  const calcAverageRating = () => {
+    if (event === null) return;
+
+    const valuesArr = Object.values(event.ratings);
+    console.log('valuesArr', valuesArr);
+    const sum = valuesArr.reduce((acc, val) => {
+      return acc + parseFloat(val);
+    }, 0);
+    const averageRating = (sum / valuesArr.length).toFixed(1);
+    console.log('average rating: ', averageRating);
     axios
-      .delete(`${API_URL}/events/${id}/reviews/${reviewId}.json`)
-      .then((response) => {
-        return axios.get(`${API_URL}/events/${id}.json`);
-      })
-      .then((response) => {
-        setEvent(response.data);
-      })
+      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
+      .then((response) => console.log('average Rating updated'))
       .catch((err) => console.log(err));
+    return averageRating;
   };
 
   const showCreateComponent = () => {
@@ -124,7 +181,7 @@ const EventDetailsPage = (props) => {
             <h1 className="text-3xl font-bold mb-1 text-purple-800 flex gap-2">
               {event.name}
               <span className="flex items-center gap-1">
-                (<Star size={24} weight="duotone" /> {props.totalRating(event.ratings)})
+                (<Star size={24} weight="duotone" /> {calcAverageRating()})
               </span>
             </h1>
             <p className="text-2xl font-semibold">
@@ -145,11 +202,11 @@ const EventDetailsPage = (props) => {
               Festival Rating <Star size={24} weight="duotone" />
             </p>
             <ul className="text-lg space-y-1 font-medium text-blue-900">
-              {Object.keys(event.ratings).map((rating, i) => {
+              {Object.entries(event.ratings).map(([key, value]) => {
                 return (
-                  <li key={i} className="flex items-center justify-between">
-                    <strong>{translateKeys(rating)}: </strong>
-                    <span className="text-xl font-bold">{event.reviews ? calcRating(event.reviews)[i] : 0}</span>
+                  <li key={key} className="flex items-center justify-between">
+                    <strong>{translateKeys(key)}: </strong>
+                    <span className="text-xl font-bold">{calcRating(reviewsObj, key)}</span>
                   </li>
                 );
               })}
@@ -188,7 +245,7 @@ const EventDetailsPage = (props) => {
 
       <div className="reviewsSection border-t-2 border-gray-100 pt-5">
         <div id="createReview" className="hidden">
-          <CreateReview setEvent={setEvent} />
+          <CreateReview setEvent={setEvent} setReload={setReload} reload={reload} />
         </div>
         {reviewsObj ? (
           <div className="reviews flex flex-col gap-4" key={reviewsObj.reviewId}>
@@ -198,9 +255,11 @@ const EventDetailsPage = (props) => {
                   eventId={id}
                   reviewId={key}
                   reviewObj={value}
-                  deleteHandler={deleteHandler}
                   translateKeys={translateKeys}
                   setEvent={setEvent}
+                  reload={reload}
+                  setReload={setReload}
+                  id={id}
                 />
               );
             })}
