@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "../assets/css/table.css";
 import { PencilSimple, Trash, TrashSimple } from "@phosphor-icons/react";
 import Loading from "../components/Loading";
 

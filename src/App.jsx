@@ -14,16 +14,17 @@ import AdminCreateEventPage from "./pages/AdminCreateEventPage";
 import AdminUpdateEventPage from "./pages/AdminUpdateEventPage";
 import AdminReviewsListPage from "./pages/AdminReviewsListPage";
 import AdminEventsListPage from "./pages/AdminEventListPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   const totalRating = (ratingsObj) => {
-    if (ratingsObj !== 'undefined') {
+    if (ratingsObj !== "undefined") {
       const sum = Object.keys(ratingsObj).reduce((acc, val) => {
         return acc + parseFloat(ratingsObj[val]);
       }, 0);
       return (sum / Object.keys(ratingsObj).length).toFixed(1);
     } else {
-      return '0.0';
+      return "0.0";
     }
   };
 
@@ -55,6 +56,8 @@ function App() {
           >
             <Route index element={<AdminUpdateEventPage />} />
           </Route>
+
+          <Route path="/register" element={<RegisterPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

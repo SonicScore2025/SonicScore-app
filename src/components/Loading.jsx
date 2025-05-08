@@ -1,6 +1,6 @@
 import { Waveform } from "@phosphor-icons/react";
 
-export default function Loading() {
+const Loading = () => {
   return (
     <div className="flex items-center justify-center min-h-96">
       <Waveform
@@ -10,4 +10,5 @@ export default function Loading() {
       />
     </div>
   );
-}
+};
+export default Loading;

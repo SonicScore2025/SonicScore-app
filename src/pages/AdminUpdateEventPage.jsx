@@ -134,7 +134,7 @@ const UpdateEventPage = () => {
         <h1>Update Event</h1>
       </div>
 
-      <form className="admin md:w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
+      <form className="admin purple md:w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
         <div className="form-control">
           <label className="label">Event Name</label>
           <input
