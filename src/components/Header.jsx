@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { app } from "../firebase";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Waveform } from "@phosphor-icons/react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const auth = getAuth(app);
@@ -18,7 +19,6 @@ const Header = () => {
       if (user) {
         setCurrentUser(user);
 
-        // گرفتن role کاربر
         try {
           const response = await axios.get(`${API_URL}/users/${user.uid}.json`);
           const userData = response.data;
@@ -39,7 +39,7 @@ const Header = () => {
     try {
       await signOut(auth);
       toast.success("You have logged out successfully.");
-      navigate("/"); // بعد از لاگ‌اوت بره صفحه اصلی
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
       toast.error("Error signing out. Please try again.");
@@ -50,12 +50,12 @@ const Header = () => {
     <div className="Header py-4 md:py-5 border-b border-gray-100 shadow shadow-gray-100">
       <div className="container max-w-5xl mx-auto flex flex-col md:flex-row gap-3 items-center justify-between">
         <Link to={"/"}>
-          <h1 className="text-3xl font-black uppercase text-purple-800">
-            Sonic Score
+          <h1 className="text-2xl font-extrabold uppercase text-purple-800 flex items-center gap-2">
+            <Waveform size={40} weight="fill" /> Sonic Score
           </h1>
         </Link>
 
-        <ul className="flex gap-10">
+        <ul className="flex md:gap-10 justify-around w-full md:w-auto px-3 md:px-0">
           <li>
             <NavLink to="/">Events</NavLink>
           </li>
