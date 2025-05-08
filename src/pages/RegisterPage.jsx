@@ -47,8 +47,8 @@ const RegisterPage = () => {
         role: "user",
       });
 
-      toast.success("User registered successfully!");
-      navigate("/login");
+      toast.success("User registered successfully & logged in!");
+      navigate("/");
     } catch (error) {
       console.error("Error registering user:", error.code);
 

@@ -45,7 +45,7 @@ const LoginPage = () => {
       toast.success("Logged in successfully!");
 
       if (userData.role === "admin") {
-        navigate("/admin");
+        navigate("/admin/events");
       } else {
         navigate("/");
       }
