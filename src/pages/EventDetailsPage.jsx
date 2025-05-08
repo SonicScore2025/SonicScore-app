@@ -25,10 +25,62 @@ const EventDetailsPage = (props) => {
 
   useEffect(() => {
     axios
-      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
-      .then((response) => console.log('average Rating updated'))
+      .patch(`${API_URL}/events/${id}/ratings.json`, averageReviewsRatings)
+      .then((response) => {
+        if (props.reload) {
+          setReload(false);
+        } else setReload(true);
+      })
       .catch((err) => console.log(err));
   }, [event]);
+
+  useEffect(() => {
+    axios
+      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
+      .then((response) => console.log('average rating updated'))
+      .catch((err) => console.log(err));
+  }, [event]);
+
+  let averageRating = '0.0';
+  if (event !== null) {
+    const eventRatingsValues = Object.values(event.ratings);
+    const eventRatingsValuesSum = eventRatingsValues.reduce((acc, val) => {
+      return acc + parseFloat(val);
+    }, 0);
+    averageRating = (eventRatingsValuesSum / eventRatingsValues.length).toFixed(1);
+  }
+
+  const initialRatings = {
+    atmosphere: 0,
+    facilities: 0,
+    musicQuality: 0,
+    organization: 0,
+    overallExperience: 0,
+    safety: 0,
+    valueForMoney: 0,
+  };
+  const averageReviewsRatings = {};
+  if (event !== null) {
+    const reviewsObj = event.reviews;
+    const reviewRatings = Object.entries(reviewsObj).map(([reviwId, review]) => {
+      return review.ratings;
+    });
+
+    const allReviewsTotalScore = reviewRatings.reduce(
+      (acc, currentReview) => {
+        for (const key in currentReview) {
+          if (acc.hasOwnProperty(key)) {
+            acc[key] += parseInt(currentReview[key]);
+          }
+        }
+        return acc;
+      },
+      { ...initialRatings }
+    );
+    Object.keys(initialRatings).map((key) => {
+      return (averageReviewsRatings[key] = (allReviewsTotalScore[key] / reviewRatings.length).toFixed(1));
+    });
+  }
 
   const translateKeys = (key) => {
     if (key === 'atmosphere') {
@@ -48,113 +100,6 @@ const EventDetailsPage = (props) => {
     }
   };
 
-  const calcRating = (revObj, categoryKey) => {
-    if (typeof revObj === 'undefined') {
-      return 0;
-    }
-    let sumKey = 0;
-    const revValuesArr = Object.values(revObj);
-    revValuesArr.map((data) => {
-      const reviewsRatingObj = data.ratings;
-      const entriesArr = Object.entries(reviewsRatingObj);
-      return entriesArr.map(([key, value]) => {
-        if (key === categoryKey) {
-          return (sumKey += parseInt(value));
-        }
-      });
-    });
-    const averageValue = (sumKey / revValuesArr.length).toFixed(1);
-
-    if (categoryKey === 'atmosphere') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { atmosphere: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'facilities') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { facilities: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'musicQuality') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { musicQuality: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'organization') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { organization: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'overallExperience') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { overallExperience: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'safety') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { safety: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    } else if (categoryKey === 'valueForMoney') {
-      axios
-        .patch(`${API_URL}/events/${id}/ratings.json`, { valueForMoney: averageValue })
-        .then((response) => {
-          if (props.reload) {
-            setReload(false);
-          } else setReload(true);
-          `${categoryKey} update successful`;
-        })
-
-        .catch((err) => console.log(err));
-    }
-
-    return averageValue;
-  };
-
-  let averageRating = '0.0';
-  if (event !== null) {
-    const valuesArr = Object.values(event.ratings);
-    const sum = valuesArr.reduce((acc, val) => {
-      return acc + parseFloat(val);
-    }, 0);
-    averageRating = (sum / valuesArr.length).toFixed(1);
-  }
-
   const showCreateComponent = () => {
     document.getElementById('createReview').classList.remove('hidden');
   };
@@ -164,6 +109,7 @@ const EventDetailsPage = (props) => {
   }
 
   const reviewsObj = event.reviews;
+
   return (
     <div className="eventDetailsPage">
       <div className="eventDetails mb-10 flex flex-col">
@@ -181,7 +127,6 @@ const EventDetailsPage = (props) => {
               {event.name}
               <span className="flex items-center gap-1">
                 (<Star size={24} weight="duotone" /> {averageRating})
-                {/* (<Star size={24} weight="duotone" /> {calcAverageRating()}) */}
               </span>
             </h1>
             <p className="text-2xl font-semibold">
@@ -202,11 +147,11 @@ const EventDetailsPage = (props) => {
               Festival Rating <Star size={24} weight="duotone" />
             </p>
             <ul className="text-lg space-y-1 font-medium text-blue-900">
-              {Object.entries(event.ratings).map(([key, value]) => {
+              {Object.keys(event.ratings).map((key) => {
                 return (
                   <li key={key} className="flex items-center justify-between">
                     <strong>{translateKeys(key)}: </strong>
-                    <span className="text-xl font-bold">{calcRating(reviewsObj, key)}</span>
+                    <span className="text-xl font-bold">{averageReviewsRatings[key]}</span>
                   </li>
                 );
               })}
