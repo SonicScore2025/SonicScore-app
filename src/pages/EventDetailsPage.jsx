@@ -23,6 +23,13 @@ const EventDetailsPage = (props) => {
       });
   }, [reload]);
 
+  useEffect(() => {
+    axios
+      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
+      .then((response) => console.log('average Rating updated'))
+      .catch((err) => console.log(err));
+  }, [event]);
+
   const translateKeys = (key) => {
     if (key === 'atmosphere') {
       return 'Atmosphere';
@@ -139,20 +146,14 @@ const EventDetailsPage = (props) => {
     return averageValue;
   };
 
-  const calcAverageRating = () => {
-    if (event === null) return;
-
+  let averageRating = '0.0';
+  if (event !== null) {
     const valuesArr = Object.values(event.ratings);
     const sum = valuesArr.reduce((acc, val) => {
       return acc + parseFloat(val);
     }, 0);
-    const averageRating = (sum / valuesArr.length).toFixed(1);
-    axios
-      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
-      .then((response) => console.log('average Rating updated'))
-      .catch((err) => console.log(err));
-    return averageRating;
-  };
+    averageRating = (sum / valuesArr.length).toFixed(1);
+  }
 
   const showCreateComponent = () => {
     document.getElementById('createReview').classList.remove('hidden');
@@ -179,7 +180,8 @@ const EventDetailsPage = (props) => {
             <h1 className="text-3xl font-bold mb-1 text-purple-800 flex gap-2">
               {event.name}
               <span className="flex items-center gap-1">
-                (<Star size={24} weight="duotone" /> {calcAverageRating()})
+                (<Star size={24} weight="duotone" /> {averageRating})
+                {/* (<Star size={24} weight="duotone" /> {calcAverageRating()}) */}
               </span>
             </h1>
             <p className="text-2xl font-semibold">
