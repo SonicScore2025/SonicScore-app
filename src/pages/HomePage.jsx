@@ -7,7 +7,7 @@ import Loading from '../components/Loading';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const HomePage = () => {
+const HomePage = (props) => {
   const [events, setEvents] = useState(null);
 
   useEffect(() => {
