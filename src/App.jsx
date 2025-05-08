@@ -15,6 +15,9 @@ import AdminUpdateEventPage from "./pages/AdminUpdateEventPage";
 import AdminReviewsListPage from "./pages/AdminReviewsListPage";
 import AdminEventsListPage from "./pages/AdminEventListPage";
 import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import { ToastContainer } from "react-toastify";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   const totalRating = (ratingsObj) => {
@@ -40,28 +43,32 @@ function App() {
             element={<EventDetailsPage totalRating={totalRating} />}
           />
           <Route path="/about" element={<AboutPage />} />
-
-          <Route path="/admin/events" element={<AdminDashboardPage />}>
-            <Route index element={<AdminEventsListPage />} />
-          </Route>
-          <Route path="/admin/reviews" element={<AdminDashboardPage />}>
-            <Route index element={<AdminReviewsListPage />} />
-          </Route>
-          <Route path="/admin/events/create" element={<AdminDashboardPage />}>
-            <Route index element={<AdminCreateEventPage />} />
-          </Route>
-          <Route
-            path="/admin/event/:id/update"
-            element={<AdminDashboardPage />}
-          >
-            <Route index element={<AdminUpdateEventPage />} />
-          </Route>
-
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* <Route element={<AdminRoute />}> */}
+            <Route path="/admin/events" element={<AdminDashboardPage />}>
+              <Route index element={<AdminEventsListPage />} />
+            </Route>
+            <Route path="/admin/reviews" element={<AdminDashboardPage />}>
+              <Route index element={<AdminReviewsListPage />} />
+            </Route>
+            <Route path="/admin/events/create" element={<AdminDashboardPage />}>
+              <Route index element={<AdminCreateEventPage />} />
+            </Route>
+            <Route
+              path="/admin/event/:id/update"
+              element={<AdminDashboardPage />}
+            >
+              <Route index element={<AdminUpdateEventPage />} />
+            </Route>
+          {/* </Route> */}
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+
+      <ToastContainer position="bottom-left" />
 
       <Footer />
     </>

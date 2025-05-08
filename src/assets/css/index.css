@@ -84,7 +84,7 @@ form.admin {
 }
 
 form.purple input,
-form.perple textarea {
+form.purple textarea {
   @apply outline-purple-800;
 }
 

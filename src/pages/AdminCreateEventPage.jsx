@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,8 +42,8 @@ const CreateEventPage = () => {
   const createEvent = (newEvent) => {
     return axios
       .post(`${API_URL}/events.json`, newEvent)
-      .then((response) => {
-        console.log("Event Created:", response.data);
+      .then(() => {
+        toast.success("Event Created!");
         return true;
       })
       .catch((err) => {
@@ -82,20 +83,20 @@ const CreateEventPage = () => {
     checkDuplicateEvent(newEvent.name)
       .then((isDuplicate) => {
         if (isDuplicate) {
-          alert("An event with this name already exists!");
+          toast.error("An event with this name already exists!");
         } else {
           createEvent(newEvent).then((success) => {
             if (success) {
               navigate("/admin/events");
             } else {
-              alert("Failed to create event. Please try again.");
+              toast.error("Failed to create event. Please try again.");
             }
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.");
       });
   };
 
@@ -111,7 +112,10 @@ const CreateEventPage = () => {
         <h1>Create New Event</h1>
       </div>
 
-      <form className="admin purple md:w-2/3 mx-auto my-5" onSubmit={handleSubmit}>
+      <form
+        className="admin purple md:w-2/3 mx-auto my-5 purple"
+        onSubmit={handleSubmit}
+      >
         <div className="form-control">
           <label className="label">Event Name</label>
           <input
@@ -275,7 +279,10 @@ const CreateEventPage = () => {
           <button className="btn btn-cancel" onClick={() => navigate(-1)}>
             Back to List
           </button>
-          <button type="submit" className="btn btn-primary-fill flex-1 md:flex-none">
+          <button
+            type="submit"
+            className="btn btn-primary-fill flex-1 md:flex-none"
+          >
             Create Event
           </button>
         </div>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PencilSimple, Trash, TrashSimple } from "@phosphor-icons/react";
 import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -43,7 +44,7 @@ const AdminEventsListPage = () => {
     return axios
       .delete(`${API_URL}/events/${id}.json`)
       .then(() => {
-        console.log("Event Deleted");
+        toast.success("Event Deleted!");
         setEvents(events.filter((event) => event.id !== id));
         return true;
       })
