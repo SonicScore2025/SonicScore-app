@@ -2,7 +2,7 @@
 
 An Ironhack Web-Dev Bootcamp project
 
-<img src="image-1.png" style="max-width: 500px" />
+<img src="./public/image-1.png" style="max-width: 500px" />
 
 ### Description
 
