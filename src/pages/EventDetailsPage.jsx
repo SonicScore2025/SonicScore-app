@@ -36,10 +36,7 @@ const EventDetailsPage = (props) => {
   }, [event]);
 
   useEffect(() => {
-    axios
-      .patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating })
-      .then((response) => console.log('average rating updated'))
-      .catch((err) => console.log(err));
+    axios.patch(`${API_URL}/events/${id}.json`, { averageRating: averageRating }).catch((err) => console.log(err));
   }, [event]);
 
   let averageRating = '0.0';
@@ -60,8 +57,8 @@ const EventDetailsPage = (props) => {
     safety: 0,
     valueForMoney: 0,
   };
-  const averageReviewsRatings = {};
-  if (event !== null) {
+  let averageReviewsRatings = {};
+  if (event !== null && event.reviews) {
     const reviewsObj = event.reviews;
     const reviewRatings = Object.entries(reviewsObj).map(([reviwId, review]) => {
       return review.ratings;
@@ -81,6 +78,8 @@ const EventDetailsPage = (props) => {
     Object.keys(initialRatings).map((key) => {
       return (averageReviewsRatings[key] = (allReviewsTotalScore[key] / reviewRatings.length).toFixed(1));
     });
+  } else {
+    averageReviewsRatings = initialRatings;
   }
 
   const translateKeys = (key) => {
@@ -194,7 +193,7 @@ const EventDetailsPage = (props) => {
           <CreateReview setEvent={setEvent} setReload={setReload} reload={reload} />
         </div>
         {reviewsObj ? (
-          <div className="reviews flex flex-col gap-4" key={reviewsObj.reviewId}>
+          <div className="reviews flex flex-col gap-4">
             {Object.entries(reviewsObj).map(([key, value], i) => {
               return (
                 <ReviewsCard
@@ -206,6 +205,7 @@ const EventDetailsPage = (props) => {
                   reload={reload}
                   setReload={setReload}
                   id={id}
+                  key={i}
                 />
               );
             })}

@@ -59,7 +59,7 @@ const HomePage = (props) => {
                   </span>
                   <span className="flex items-center whitespace-pre">
                     <span className="flex items-center ">
-                      2 <User size={18} weight="bold" />
+                      {event.reviews ? Object.keys(event.reviews).length : 0} <User size={18} weight="bold" />
                     </span>
                   </span>
                 </p>
