@@ -1,12 +1,34 @@
-# React + Vite
+# Sonic Score
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An Ironhack Web-Dev Bootcamp project
 
-Currently, two official plugins are available:
+<img src="image-1.png" style="max-width: 500px" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Description
 
-## Expanding the ESLint configuration
+Sonic Score is a web platform for music lovers to discover and rate music festivals based on real experiences.
+Users can review festivals by category — from atmosphere and music quality to safety and organization — helping others make smarter choices.
+Join the community, share your voice, and explore the world’s top music festivals through authentic feedback.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Project Tech Stack
+
+- JavaScript
+- React
+- Tailwind CSS
+- Vite
+- Firebase real-time database
+- Firebase authentication
+- Toastify
+- Phosporicons
+- git
+
+### Deployment link
+
+https://sonic-score.netlify.app/
+
+### Development
+
+The project was developed in pair-programming by
+
+- Pedram Ghane, https://github.com/iampedi
+- André Kaltenbach, https://github.com/andrekaltenbach
