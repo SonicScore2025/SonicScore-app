@@ -32,7 +32,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          {/* <Route element={<AdminRoute />}> */}
+          <Route element={<AdminRoute />}>
           <Route path="/admin/events" element={<AdminDashboardPage />}>
             <Route index element={<AdminEventsListPage />} />
           </Route>
@@ -45,7 +45,7 @@ function App() {
           <Route path="/admin/event/:id/update" element={<AdminDashboardPage />}>
             <Route index element={<AdminUpdateEventPage />} />
           </Route>
-          {/* </Route> */}
+          </Route>
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
