@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { GlobeSimple, Star } from '@phosphor-icons/react';
 import ReviewsCard from '../components/ReviewsCard';
 import CreateReview from '../components/CreateReview';
+import Loading from '../components/Loading';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -105,7 +106,7 @@ const EventDetailsPage = (props) => {
   };
 
   if (!event) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   const reviewsObj = event.reviews;

@@ -1,7 +1,8 @@
-import { PencilSimpleLine } from '@phosphor-icons/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { PencilSimpleLine } from '@phosphor-icons/react';
+import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -59,6 +60,7 @@ function EditReview(props) {
     axios
       .patch(`${API_URL}/events/${id}/reviews/${props.reviewId}.json`, editReview)
       .then((response) => {
+        toast.success('Your Changes have been saved');
         props.setEditStatus(false);
         if (props.reload) {
           props.setReload(false);

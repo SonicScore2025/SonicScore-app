@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Trash } from '@phosphor-icons/react';
-import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,6 +9,7 @@ function DeleteReview(props) {
     axios
       .delete(`${API_URL}/events/${props.id}/reviews/${props.reviewId}.json`)
       .then((response) => {
+        toast.success('Score deleted');
         if (props.reload) {
           props.setReload(false);
         } else props.setReload(true);

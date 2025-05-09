@@ -3,6 +3,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -44,6 +45,7 @@ function CreateReview(props) {
     axios
       .post(`${API_URL}/events/${id}/reviews.json`, newReview)
       .then((response) => {
+        toast.success('Score Created!');
         document.getElementById('createReview').classList.add('hidden');
         return axios.get(`${API_URL}/events/${id}.json`);
       })
